@@ -34,7 +34,7 @@ export const Route = createFileRoute("/programs")({
           </h1>
           <OmbreBackground
             innerComponent={
-              <div className="bg-saseGrayLight flex h-full flex-col rounded-2xl p-4 text-center">
+              <div className="flex h-full flex-col rounded-2xl bg-saseGrayLight p-4 text-center">
                 <p className="text-center font-redhat text-lg font-semibold text-black">
                   <span className="font-bold text-saseBlue">SASE programs</span> allow members opportunities to work on{" "}
                   <span className="font-bold text-saseGreen">long-term technical projects</span> and promote{" "}
