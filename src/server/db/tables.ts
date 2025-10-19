@@ -171,3 +171,15 @@ export const meetingSlides = sqliteTable("meeting_slides", {
   thumbnailUrl: text("thumbnail_url").notNull().unique(),
   embedUrl: text("embed_url").notNull().unique(),
 });
+
+// History of Board Members table
+
+export const boardMemberHistory = sqliteTable("board_member_history", {
+  name: text("name").notNull(),
+  key: text("key").primaryKey(),
+  url: text("url").notNull(),
+  size: integer("size"),
+  uploadedAt: text("uploaded_at"),
+});
+
+  
