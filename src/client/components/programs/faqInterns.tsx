@@ -3,7 +3,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
     question: "How do I sign up?",
     answer: (
       <>
-        <strong>Spring 2025</strong> applications will open in early December and close in early January! Keep an eye out on UF SASE’s{" "}
+        <strong>Spring 2026</strong> applications will open in early December and close in early January! Keep an eye out on UF SASE’s{" "}
         <a href="https://www.instagram.com/ufsase/" target="_blank" rel="noopener noreferrer" className="text-saseGreen underline">
           Instagram
         </a>{" "}
@@ -32,7 +32,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
         <a href="http://discord.gg/q3HBeC5" target="_blank" rel="noopener noreferrer" className="text-saseGreen underline">
           SASE Discord
         </a>{" "}
-        or contact our Member Involvement Chairs, Anna and Justin, through Discord!
+        or contact our Member Involvement Chairs, Connie and Michael, through Discord!
       </>
     ),
   },
