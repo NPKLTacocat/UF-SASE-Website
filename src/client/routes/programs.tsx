@@ -1,12 +1,12 @@
-import InternsCard from "@assets/programs/SaseInternsCard.png";
-import SaseSportsCard from "@assets/programs/SaseSportsCard.png";
-import SetCard from "@assets/programs/SetCard.png";
-import WebDevCard from "@assets/programs/WebDevCard.png";
-import BoardPicture from "@components/programs/BoardPicture";
+import { cn } from "@/shared/utils.js";
+import { imageUrls } from "@assets/imageUrls";
+import { OmbreBackground } from "@components/custom_ui/OmbreBackground.js";
+import { GeneralProgramsInfo } from "@components/programs/GeneralProgramsInfo.js";
 import ProgramCard from "@components/programs/ProgramCard";
+import { useIsMobile } from "@hooks/useIsMobile.js";
 import { createFileRoute } from "@tanstack/react-router";
-import React from "react";
-import { imageUrls } from "../assets/imageUrls";
+import { useEffect } from "react";
+import { applyOmbreDivider } from "../utils/ombre-divider.js";
 import { seo } from "../utils/seo";
 
 export const Route = createFileRoute("/programs")({
@@ -19,73 +19,47 @@ export const Route = createFileRoute("/programs")({
   ],
 
   component: () => {
+    const isMobile = useIsMobile();
+
+    useEffect(() => {
+      applyOmbreDivider();
+    });
+
     return (
-      <div className="mt-12 flex min-h-screen flex-col items-center bg-background">
-        <div className="w-full max-w-7xl px-4 py-8">
-          <header className="mb-14 flex items-center px-5">
-            <div className="mr-3 h-14 w-1.5 bg-saseGreen"></div>
-            <h2 className="rounded-sm font-oswald text-5xl font-semibold text-foreground">PROGRAMS</h2>
-          </header>
-          <BoardPicture />
-          <header className="mb-6 flex items-center px-5">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="font-oswald text-4xl text-foreground">SASE Interns</h2>
-          </header>
-          <ProgramCard
-            image={InternsCard}
-            text={
-              <>
-                <strong>SASE Interns</strong> collaborate directly with board members in committees to plan events for the SASE community. Interns
-                gain a behind-the-scenes look at how SASE operates and, in the process, are given the opportunity to develop their{" "}
-                <strong>professional</strong> and <strong>leadership</strong> skills.
-              </>
+      <div className="flex min-h-screen min-w-full flex-col items-center px-[10%] pt-12">
+        {/* Header, Description, Ombre Divider */}
+        <div className="flex w-full flex-col items-center justify-center">
+          <h1 className="inline-block bg-gradient-to-r from-saseBlue to-saseGreen bg-clip-text pb-6 font-oswald text-7xl font-extrabold text-transparent">
+            PROGRAMS
+          </h1>
+          <OmbreBackground
+            innerComponent={
+              <div className="flex h-full flex-col rounded-2xl bg-saseGrayLight p-4 text-center">
+                <p className="text-center font-redhat text-lg font-semibold text-black">
+                  <span className="font-bold text-saseBlue">SASE programs</span> allow members opportunities to work on{" "}
+                  <span className="font-bold text-saseGreen">long-term technical projects</span> and promote{" "}
+                  <span className="font-bold text-saseGreen">geniune connections</span> among members through a vareity of professional teams and
+                  social groups.
+                </p>
+              </div>
             }
-            link="/interns"
           />
-          <header className="mb-6 flex items-center px-5">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="font-oswald text-4xl text-foreground">Engineering Team (SET)</h2>
-          </header>
-          <ProgramCard
-            image={SetCard}
-            text={
-              <>
-                The <strong>SASE Engineering Team</strong> works together on a yearlong project to explore technical creativity and problem-solving.
-                Members gain hands-on experience, sharpen engineering and collaboration skills, and build impactful projects while growing in a
-                supportive team environment.
-              </>
-            }
-            link="/set"
-          />
-          <header className="mb-6 flex items-center px-5">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="font-oswald text-4xl text-foreground">Web Development Team</h2>
-          </header>
-          <ProgramCard
-            image={WebDevCard}
-            text={
-              <>
-                The <strong>SASE Web Development Team</strong> brings together UI/UX, Frontend, and Backend members to develop and enhance the UF SASE
-                website. Team members gain hands-on experience with agile workflows and collaborate to create a self-hosted platform, sharpening
-                technical and teamwork skills along the way.
-              </>
-            }
-            link="/webdev"
-          />
-          <header className="mb-6 flex items-center px-5">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="font-oswald text-4xl text-foreground">SASE Sports</h2>
-          </header>
-          <ProgramCard
-            image={SaseSportsCard}
-            text={
-              <>
-                <strong>SASE Intramurals</strong> offer sports like Volleyball, Soccer, Ultimate Frisbee, and Pickleball year-round. It’s a fun way to
-                meet new people, stay active, and enjoy friendly competition—no experience needed!
-              </>
-            }
-            link="/sports"
-          />
+          <div className="ombre-divider"></div>
+        </div>
+
+        {/* Program Cards */}
+        <div
+          className={cn(
+            {
+              "grid-cols-1": isMobile === true,
+              "grid-cols-2": isMobile === false,
+            },
+            "grid items-stretch gap-12 py-6",
+          )}
+        >
+          {GeneralProgramsInfo.map((program) => (
+            <ProgramCard name={program.program} image={program.image} text={program.description} link={program.link} number={program.number} />
+          ))}
         </div>
       </div>
     );

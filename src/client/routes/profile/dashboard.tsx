@@ -118,7 +118,6 @@ export const Route = createFileRoute("/profile/dashboard")({
               )}
             </section>
           )}
-          
 
           {/* Customization (placeholder) */}
           <section className="space-y-4">
