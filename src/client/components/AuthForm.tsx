@@ -224,7 +224,7 @@ const AuthForm = ({
               Login here.
             </Link>
           ) : (
-            <Link to="/email-verification" className="cursor-pointer text-saseBlue underline">
+            <Link to="/forgot-password" className="cursor-pointer text-saseBlue underline">
               Click here to reset.
             </Link>
           )}
