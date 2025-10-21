@@ -64,7 +64,7 @@ const AuthForm = ({
     handleSubmit,
     register,
     watch,
-  } = useForm<FormData>({ mode: "all", defaultValues: { username: "", email: "", password: "", retypePassword: "" } });
+  } = useForm<FormData>({ mode: "onBlur", reValidateMode: "onChange", defaultValues: { username: "", email: "", password: "", retypePassword: "" } });
 
   const password = watch("password");
   const handleFormSubmit: SubmitHandler<FormData> = (data) => {
