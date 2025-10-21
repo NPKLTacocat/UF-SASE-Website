@@ -171,3 +171,11 @@ export const meetingSlides = sqliteTable("meeting_slides", {
   thumbnailUrl: text("thumbnail_url").notNull().unique(),
   embedUrl: text("embed_url").notNull().unique(),
 });
+
+export const pendingVerifications = sqliteTable("pending_verifications", {
+  email: text("email").primaryKey(),
+  code: text("code").notNull(),
+  userData: text("user_data").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  attempts: integer("attempts").notNull().default(0),
+});
