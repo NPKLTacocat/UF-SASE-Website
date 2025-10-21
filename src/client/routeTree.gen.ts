@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as WebdevImport } from './routes/webdev'
+import { Route as VerifyEmailImport } from './routes/verify-email'
 import { Route as UserpageImport } from './routes/userpage'
 import { Route as SportsImport } from './routes/sports'
 import { Route as SponsorsImport } from './routes/sponsors'
@@ -26,7 +27,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as InternsImport } from './routes/interns'
 import { Route as GalleryImport } from './routes/gallery'
 import { Route as ForgotPasswordImport } from './routes/forgot-password'
-import { Route as EventsImport } from './routes/ev./routes/forgot-password
+import { Route as EventsImport } from './routes/events'
 import { Route as BoardImport } from './routes/board'
 import { Route as BlogsImport } from './routes/blogs'
 import { Route as AuthedImport } from './routes/authed'
@@ -45,6 +46,12 @@ import { Route as UsersUsernameIdImport } from './routes/users/$username/$id'
 const WebdevRoute = WebdevImport.update({
   id: '/webdev',
   path: '/webdev',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerifyEmailRoute = VerifyEmailImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -361,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserpageImport
       parentRoute: typeof rootRoute
     }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailImport
+      parentRoute: typeof rootRoute
+    }
     '/webdev': {
       id: '/webdev'
       path: '/webdev'
@@ -457,6 +471,7 @@ export interface FileRoutesByFullPath {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -487,6 +502,7 @@ export interface FileRoutesByTo {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -519,6 +535,7 @@ export interface FileRoutesById {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -552,6 +569,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -581,6 +599,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -611,6 +630,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -643,6 +663,7 @@ export interface RootRouteChildren {
   SponsorsRoute: typeof SponsorsRoute
   SportsRoute: typeof SportsRoute
   UserpageRoute: typeof UserpageRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   WebdevRoute: typeof WebdevRoute
   UsersUsernameIdRoute: typeof UsersUsernameIdRoute
 }
@@ -669,6 +690,7 @@ const rootRouteChildren: RootRouteChildren = {
   SponsorsRoute: SponsorsRoute,
   SportsRoute: SportsRoute,
   UserpageRoute: UserpageRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   WebdevRoute: WebdevRoute,
   UsersUsernameIdRoute: UsersUsernameIdRoute,
 }
@@ -704,6 +726,7 @@ export const routeTree = rootRoute
         "/sponsors",
         "/sports",
         "/userpage",
+        "/verify-email",
         "/webdev",
         "/users/$username/$id"
       ]
@@ -777,6 +800,9 @@ export const routeTree = rootRoute
     },
     "/userpage": {
       "filePath": "userpage.tsx"
+    },
+    "/verify-email": {
+      "filePath": "verify-email.tsx"
     },
     "/webdev": {
       "filePath": "webdev.tsx"

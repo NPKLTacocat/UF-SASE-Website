@@ -17,6 +17,7 @@ interface AuthFormProps {
   isSignUp?: boolean;
   isResetPassword?: boolean;
   isEmailVerification?: boolean;
+  isVerification?: boolean;
   additionalButton?: { text: string; route: string };
 }
 
@@ -24,6 +25,7 @@ export interface FormData {
   username: string;
   email: string;
   password: string;
+  code: string;
   newPassword: string;
   retypePassword?: string;
   firstName: string;
@@ -51,6 +53,7 @@ const AuthForm = ({
   isEmailVerification = false,
   isResetPassword = false,
   isSignUp = false,
+  isVerification = false,
   linkRoute,
   linkText,
   onSubmit,
@@ -101,7 +104,7 @@ const AuthForm = ({
           {errors.email && <span className="mb-1 font-redhat text-sm text-red-600">{errors.email.message}</span>}
         </>
       )}
-      {!isResetPassword && !isEmailVerification && (
+      {!isResetPassword && !isEmailVerification && !isVerification && (
         <>
           <StyledFormField icon="icon-[qlementine-icons--user-16]" hasError={!!errors.username}>
             <Input
@@ -152,6 +155,26 @@ const AuthForm = ({
             />
           </StyledFormField>
           {errors.password && <span className="mb-1 font-redhat text-sm text-red-600">{errors.password.message}</span>}
+        </>
+      )}
+      {isVerification && (
+        <>
+          <StyledFormField icon="icon-[material-symbols--mail-outline]" hasError={!!errors.code}>
+            <Input
+              id="code"
+              type="text"
+              maxLength={6}
+              {...register("code", {
+                required: "Verification code is required",
+                pattern: {
+                  value: /^\d{6}$/,
+                  message: "Code must be 6 digits",
+                },
+              })}
+              placeholder="Enter 6-digit code"
+            />
+          </StyledFormField>
+          {errors.code && <span className="mb-1 text-sm text-red-600">{errors.code.message}</span>}
         </>
       )}
       {isSignUp && (
