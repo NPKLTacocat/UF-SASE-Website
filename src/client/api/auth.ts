@@ -82,3 +82,16 @@ export const verifyCode = async (request: VerifyCodeRequest) => {
   );
   return data;
 };
+
+export const resendVerifyCode = async (email: string) => {
+  const { data } = await apiFetch(
+    "/api/auth/resend-code",
+    {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    },
+    SignupResponseSchema,
+  );
+  return data;
+};

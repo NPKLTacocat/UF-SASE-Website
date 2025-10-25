@@ -9,7 +9,7 @@ import { Hono } from "hono";
 import { generateIdFromEntropySize } from "lucia";
 import { Resend } from "resend";
 
-const { compare, genSalt, hash } = bcrypt;
+const { compare, hash } = bcrypt;
 
 const resend = new Resend(SERVER_ENV.RESEND_API_KEY);
 const authRoutes = new Hono();
@@ -29,7 +29,6 @@ authRoutes.post("/auth/signup", async (c) => {
     return createErrorResponse(c, "INVALID_PASSWORD", "Invalid password from regex", 400);
   }
   //validate email
-  // add 3rd validation for email using regular expressions
   if (!email || typeof email !== "string" || !emailRegex.test(email)) {
     console.log(email);
     return createErrorResponse(c, "INVALID_EMAIL", "Invalid email!", 400);
@@ -53,7 +52,7 @@ authRoutes.post("/auth/signup", async (c) => {
     // Generate and store verification code
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedCode = await hash(verificationCode, 10);
-    const hashedPassword = await hash(password, await genSalt(10));
+    const hashedPassword = await hash(password, 10);
 
     // Store pending verification
     await db
@@ -86,6 +85,43 @@ authRoutes.post("/auth/signup", async (c) => {
   } catch (error) {
     console.error(error);
     return createErrorResponse(c, "SIGNUP_ERROR", "Error during signup", 500);
+  }
+});
+
+authRoutes.post("/auth/resend-code", async (c) => {
+  try {
+    const { email } = await c.req.json();
+    if (!email || typeof email !== "string") {
+      return createErrorResponse(c, "INVALID_INPUT", "Invalid email", 400);
+    }
+    const pending = await db.select().from(pendingVerifications).where(eq(pendingVerifications.email, email)).get();
+    if (!pending) {
+      return createErrorResponse(c, "NO_PENDING", "No verification pending", 400);
+    }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedCode = await hash(verificationCode, 10);
+
+    await db
+      .update(pendingVerifications)
+      .set({
+        code: hashedCode,
+        expiresAt: Date.now() + 10 * 60 * 1000,
+        attempts: 0,
+      })
+      .where(eq(pendingVerifications.email, email));
+
+    await resend.emails.send({
+      from: "UF SASE <alerts@email.ufsase.com>",
+      to: [email],
+      subject: `${verificationCode} is your verification code`,
+      react: VerificationTemplate({ code: verificationCode }),
+    });
+
+    return createSuccessResponse(c, { message: "Verification code resent" }, "Check your email");
+  } catch (err) {
+    console.error("Resend error:", err);
+    return createErrorResponse(c, "RESEND_ERROR", "Failed to resend code", 500);
   }
 });
 

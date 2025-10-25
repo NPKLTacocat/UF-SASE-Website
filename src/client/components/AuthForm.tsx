@@ -11,14 +11,19 @@ interface AuthFormProps {
   onSubmit: (data: FormData) => void;
   title: string;
   buttonLabel: string;
-  linkText: string;
-  linkRoute: string;
+  linkText?: string;
+  linkRoute?: string;
   errorMessage?: string;
   isSignUp?: boolean;
   isResetPassword?: boolean;
   isEmailVerification?: boolean;
   isVerification?: boolean;
   additionalButton?: { text: string; route: string };
+  resendAction?: {
+    onClick: () => void;
+    disabled: boolean;
+    text: string;
+  };
 }
 
 export interface FormData {
@@ -57,6 +62,7 @@ const AuthForm = ({
   linkRoute,
   linkText,
   onSubmit,
+  resendAction,
   title,
 }: AuthFormProps) => {
   const {
@@ -64,7 +70,11 @@ const AuthForm = ({
     handleSubmit,
     register,
     watch,
-  } = useForm<FormData>({ mode: "onBlur", reValidateMode: "onChange", defaultValues: { username: "", email: "", password: "", retypePassword: "" } });
+  } = useForm<FormData>({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    defaultValues: { username: "", email: "", password: "", retypePassword: "", code: "" },
+  });
 
   const password = watch("password");
   const handleFormSubmit: SubmitHandler<FormData> = (data) => {
@@ -237,19 +247,39 @@ const AuthForm = ({
       </Button>
       {!isResetPassword && (
         <p className="text-md mt-4 text-center font-redhat">
-          {linkText}{" "}
-          {isEmailVerification ? (
-            <Link to="/login" className="cursor-pointer text-saseBlue underline">
-              Back to login.
-            </Link>
+          {isVerification && resendAction ? (
+            <>
+              Can't find your code?{" "}
+              <button
+                onClick={resendAction.onClick}
+                disabled={resendAction.disabled}
+                className="cursor-pointer text-saseBlue underline disabled:cursor-not-allowed disabled:text-gray-400"
+                type="button"
+              >
+                {resendAction.text}
+              </button>
+            </>
+          ) : isEmailVerification ? (
+            <>
+              {linkText}{" "}
+              <Link to="/login" className="cursor-pointer text-saseBlue underline">
+                Back to login.
+              </Link>
+            </>
           ) : isSignUp ? (
-            <Link to={linkRoute} className="cursor-pointer text-saseBlue underline">
-              Login here.
-            </Link>
+            <>
+              {linkText}{" "}
+              <Link to={linkRoute} className="cursor-pointer text-saseBlue underline">
+                Login here.
+              </Link>
+            </>
           ) : (
-            <Link to="/forgot-password" className="cursor-pointer text-saseBlue underline">
-              Click here to reset.
-            </Link>
+            <>
+              {linkText}{" "}
+              <Link to="/forgot-password" className="cursor-pointer text-saseBlue underline">
+                Click here to reset.
+              </Link>
+            </>
           )}
         </p>
       )}
