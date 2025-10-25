@@ -33,8 +33,6 @@ export interface FormData {
   code: string;
   newPassword: string;
   retypePassword?: string;
-  firstName: string;
-  lastName: string;
 }
 
 // only styling
@@ -260,12 +258,9 @@ const AuthForm = ({
               </button>
             </>
           ) : isEmailVerification ? (
-            <>
-              {linkText}{" "}
-              <Link to="/login" className="cursor-pointer text-saseBlue underline">
-                Back to login.
-              </Link>
-            </>
+            <Link to="/login" className="cursor-pointer text-saseBlue underline">
+              Back to login.
+            </Link>
           ) : isSignUp ? (
             <>
               {linkText}{" "}

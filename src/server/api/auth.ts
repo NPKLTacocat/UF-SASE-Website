@@ -11,14 +11,14 @@ import { Resend } from "resend";
 
 const { compare, hash } = bcrypt;
 
+const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*!@#$%^&*()\-_=+\\|[{}\];:'",<>./?])[A-Za-z\d!@#$%^&*()\-_=+\\|[{}\];:'",<>./?]{8,}$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 const resend = new Resend(SERVER_ENV.RESEND_API_KEY);
 const authRoutes = new Hono();
 
 authRoutes.post("/auth/signup", async (c) => {
   const { email, password, username } = await c.req.json();
-
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*!@#$%^&*()\-_=+\\|[{}\];:'",<>./?])[A-Za-z\d!@#$%^&*()\-_=+\\|[{}\];:'",<>./?]{8,}$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   //validate username
   if (!username || typeof username !== "string") {
@@ -201,7 +201,6 @@ authRoutes.post("/auth/login", async (c) => {
   const formData = await c.req.json();
   const username = formData["username"];
   const password = formData["password"];
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (!username || typeof username !== "string" || username.trim() === "") {
     console.log("??????");
