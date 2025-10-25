@@ -142,18 +142,18 @@ authRoutes.post("/auth/verify-code", async (c) => {
     return createErrorResponse(c, "CODE_EXPIRED", "Verification code expired", 400);
   }
 
-  if (pending.attempts >= 3) {
-    await db.delete(pendingVerifications).where(eq(pendingVerifications.email, email));
-    return createErrorResponse(c, "TOO_MANY_ATTEMPTS", "Too many attempts, please register again", 400);
-  }
-
   // Verify the code
   const isValidCode = await compare(code, pending.code);
   if (!isValidCode) {
+    const newAttempts = pending.attempts + 1;
     await db
       .update(pendingVerifications)
       .set({ attempts: pending.attempts + 1 })
       .where(eq(pendingVerifications.email, email));
+    if (newAttempts >= 3) {
+      await db.delete(pendingVerifications).where(eq(pendingVerifications.email, email));
+      return createErrorResponse(c, "TOO_MANY_ATTEMPTS", "Too many attempts, please register again", 400);
+    }
     return createErrorResponse(c, "INVALID_CODE", "Invalid verification code", 400);
   }
 
