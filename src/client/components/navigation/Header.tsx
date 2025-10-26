@@ -6,8 +6,8 @@ import { useIsMobile } from "@hooks/useIsMobile";
 import { DesktopMenu } from "@navigation/DesktopMenu";
 import { Logo } from "@navigation/Logo";
 import { MobileMenu } from "@navigation/MobileMenu";
+import ProfileHover from "@navigation/ProfileHover";
 import { SearchBar } from "@navigation/SearchBar";
-import { UserButton } from "@navigation/UserButton";
 import { useLocation } from "@tanstack/react-router";
 import { Squash as Hamburger } from "hamburger-react";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -98,14 +98,7 @@ const Header: React.FC = () => {
             <SearchBar className="ml-4" />
             <DarkButton darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             <div className="hidden md:block">
-              {isLoading ? null : (
-                <UserButton
-                  key={isAuthenticated ? "logged-in" : "logged-out"}
-                  isLoggedIn={isAuthenticated}
-                  onLogout={logout}
-                  isHomePage={isHomePage}
-                />
-              )}
+              {isLoading ? null : <ProfileHover isLoggedIn={isAuthenticated} onLogout={logout} isHomePage={isHomePage} />}
             </div>
           </div>
         </div>
