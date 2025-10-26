@@ -8,8 +8,60 @@ import MobileMemberCard from "@components/mobile/MobileMemberCard";
 import SponsorCard from "@components/sponsors/SponsorCard";
 import { useIsMobile } from "@hooks/useIsMobile";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { seo } from "../utils/seo";
+
+type Slide = {
+  image: string;
+  mission: string;
+  text: string;
+  shadow: "green" | "blue";
+};
+
+function MobileMissionCarousel({ slides }: { slides: Array<Slide> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [idx, setIdx] = useState(0);
+
+  const onScroll = () => {
+    const el = ref.current;
+    if (!el) return;
+    setIdx(Math.round(el.scrollLeft / el.clientWidth));
+  };
+
+  const go = (i: number) => ref.current?.scrollTo({ left: i * (ref.current?.clientWidth ?? 0), behavior: "smooth" });
+
+  return (
+    <div className="w-full">
+      <div
+        ref={ref}
+        onScroll={onScroll}
+        className="relative w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain scrollbar-none"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        <div className="flex">
+          {slides.map((s) => (
+            <div key={s.mission} className="w-full shrink-0 snap-start px-6 py-6">
+              <div className="mx-auto h-[400px] max-w-sm [&>div>div:nth-child(2)>div:hover]:scale-100 [&>div>div:nth-child(2)>div]:h-full [&>div>div:nth-child(2)]:h-full [&>div]:h-full">
+                <MissionCard image={s.image} mission={s.mission} text={s.text} shadow={s.shadow} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 flex justify-center gap-2">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => go(i)}
+            className={`h-2 rounded-full transition-all ${i === idx ? "w-6 bg-foreground" : "w-2 bg-muted-foreground/40"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   meta: () => [
@@ -24,6 +76,27 @@ export const Route = createFileRoute("/")({
   component: () => {
     const isMobile = useIsMobile();
     const [expanded, setExpanded] = useState(false);
+
+    const missionSlides: Array<Slide> = [
+      {
+        image: imageUrls["Briefcase.png"],
+        mission: "Professional Development",
+        text: "To prepare Asian heritage students for success in the transnational, global business world.",
+        shadow: "green",
+      },
+      {
+        image: imageUrls["People.png"],
+        mission: "Diversity",
+        text: "To promote diversity and tolerance on campuses and in the workplace.",
+        shadow: "blue",
+      },
+      {
+        image: imageUrls["Lightbulb.png"],
+        mission: "Community",
+        text: "To provide opportunities for its members to make contributions to their local communities.",
+        shadow: "green",
+      },
+    ];
 
     return (
       <div className="flex flex-col items-center">
@@ -100,30 +173,44 @@ export const Route = createFileRoute("/")({
           </div>
         </div>
 
-        <div className="flex w-full flex-col items-center bg-saseGray p-12 dark:bg-black">
-          <h1 className="pb-12 text-center font-oswald text-6xl font-medium">Our Mission</h1>
-          <div className="grid gap-12 pl-4 pr-4 sm:grid-cols-1 md:grid-cols-3">
-            <MissionCard
-              image={imageUrls["Briefcase.png"]}
-              mission="Professional Development"
-              text="To prepare Asian heritage students for success in the
-                transnational, global business world."
-              shadow="green"
-            />
-            <MissionCard
-              image={imageUrls["People.png"]}
-              mission="Diversity"
-              text="To promote diversity and tolerance on campuses and in the
-                workplace."
-              shadow="blue"
-            />
-            <MissionCard
-              image={imageUrls["Lightbulb.png"]}
-              mission="Community"
-              text="To provide opportunities for its members to make contributions
-                to their local communities."
-              shadow="green"
-            />
+        <div className="flex w-full flex-col items-center bg-saseGray p-12 dark:bg-greenBackground">
+          <h1 className="pb-5 text-center font-oswald text-6xl font-medium sm:pb-12">Our Mission</h1>
+
+          {/* Mobile swipeable carousel */}
+          <div className="w-full sm:hidden">
+            <MobileMissionCarousel slides={missionSlides} />
+          </div>
+
+          {/* Desktop / tablet grid (sm and up) */}
+          <div className="hidden w-full sm:block">
+            <div className="mx-auto grid max-w-7xl grid-cols-1 items-stretch gap-10 px-6 sm:grid-cols-3">
+              {missionSlides.map((s) => (
+                <div key={s.mission} className="flex justify-center">
+                  <div
+                    className={[
+                      "relative h-full min-h-[330px] w-full max-w-[560px] lg:min-h-[330px]",
+                      "[&>div]:h-full",
+                      "[&>div>div:nth-child(2)]:h-full",
+                      "[&>div>div:nth-child(2)>div]:h-full",
+                      // hide the background copy on desktop
+                      "[&>div>div:first-child]:hidden",
+                      // scale whole card on hover
+                      "[&>div]:transition-transform",
+                      "[&>div]:duration-300",
+                      "[&>div]:transform-gpu",
+                      "hover:[&>div]:scale-105",
+                      s.shadow === "blue"
+                        ? "hover:[&>div>div:nth-child(2)]:shadow-[12px_12px_0_#0668B3]"
+                        : "hover:[&>div>div:nth-child(2)]:shadow-[12px_12px_0_#7DC242]",
+                      // prevent inner double-scale
+                      "[&>div>div:nth-child(2)>div:hover]:scale-100",
+                    ].join(" ")}
+                  >
+                    <MissionCard image={s.image} mission={s.mission} text={s.text} shadow={s.shadow} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -133,7 +220,7 @@ export const Route = createFileRoute("/")({
               <div className="w-full bg-gradient-to-r from-transparent via-[#7DC242] to-[#42957B]" />
               <div className="w-full bg-gradient-to-r from-[#42957B] via-[#0668B3] to-transparent" />
             </div>
-            <div className="my-2 flex w-full flex-col items-center bg-saseGray p-12 dark:bg-black">
+            <div className="flex w-full flex-col items-center bg-white p-12 dark:bg-black">
               <MobileMemberCard
                 image={imageUrls["President.jpeg"]}
                 name="Vincent Lin"
@@ -191,11 +278,14 @@ export const Route = createFileRoute("/")({
           <Carousel prog="N/A" purpose="Values" />
         </div>
 
-        <div className="dark:black flex w-full flex-col items-center justify-center bg-white p-12 dark:bg-black">
+        {/* --- Sponsors --- */}
+        <div className="flex w-full flex-col items-center justify-center bg-saseGray p-10 dark:bg-greenBackground">
           <h1 className="w-full pb-12 text-center font-oswald text-6xl font-medium">Sponsors</h1>
-          <div className="mb-20 flex w-10/12 flex-col items-start gap-14 lg:flex-row xl:gap-24">
-            <div className="flex w-full flex-col items-center rounded-2xl border-4 border-foreground bg-muted p-10 shadow-[12px_12px_0px_#7DC242]">
-              <p className="p-4 text-left font-redhat text-xl sm:text-2xl">
+
+          {/* ===== MOBILE layout ===== */}
+          <div className="w-11/12 sm:hidden">
+            <div className="relative rounded-2xl border-4 border-border bg-muted p-6 shadow-[12px_12px_0px_#7DC242]">
+              <p className="mb-8 text-left font-redhat text-xl">
                 Are you interested in becoming a partner with the UF Society of Asian Scientists and Engineers (SASE) Chapter?
                 <br />
                 <br />
@@ -206,23 +296,62 @@ export const Route = createFileRoute("/")({
                 </a>
                 .
               </p>
-            </div>
-            <div className="flex w-full flex-col items-center gap-12">
-              <div className="grid w-full grid-cols-1 gap-14 sm:grid-cols-2 xl:gap-24">
-                {SponsorInfo.map((sponsor) =>
-                  sponsor.tier === "Diamond" ? (
+
+              {/* Sponsors inside the box on mobile */}
+              <div className="grid w-full grid-cols-2 place-items-stretch gap-4">
+                {SponsorInfo.map((s) =>
+                  s.tier === "Diamond" ? (
                     <SponsorCard
-                      key={sponsor.company}
-                      image={sponsor.image}
-                      companyName={sponsor.company}
-                      type={sponsor.tier}
-                      shadowcolor={sponsor.shadow_color}
-                      link={sponsor.link}
+                      key={s.company}
+                      image={s.image}
+                      companyName={s.company}
+                      type={s.tier as "Diamond" | "Gold" | "Silver" | "Bronze"}
+                      shadowcolor={s.shadow_color}
+                      link={s.link}
+                      mobileVariant="compact"
                     />
                   ) : null,
                 )}
               </div>
-              <p className="m-0 mt-[-30px] w-full text-center font-redhat text-2xl italic text-foreground xl:text-3xl">Current Featured Sponsors</p>
+
+              <p className="mt-6 w-full text-center font-redhat text-xl italic text-foreground">Current Featured Sponsors</p>
+            </div>
+          </div>
+
+          {/* ===== DESKTOP layout ===== */}
+          <div className="hidden w-10/12 sm:block">
+            <div className="mb-20 flex w-full flex-col items-start gap-14 lg:flex-row xl:gap-24">
+              <div className="flex w-full flex-col items-center rounded-2xl border-4 border-border bg-muted p-10 shadow-[12px_12px_0px_#7DC242]">
+                <p className="p-4 text-left font-redhat text-xl sm:text-2xl">
+                  Are you interested in becoming a partner with the UF Society of Asian Scientists and Engineers (SASE) Chapter?
+                  <br />
+                  <br />
+                  To get access to our sponsorship packet, please contact our External Vice President at
+                  <a href="mailto:ufsase.evp@gmail.com" className="text-saseGreen underline">
+                    {" "}
+                    ufsase.evp@gmail.com
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <div className="flex w-full flex-col items-center gap-12">
+                <div className="grid w-full grid-cols-1 gap-14 sm:grid-cols-2 xl:gap-24">
+                  {SponsorInfo.map((sponsor) =>
+                    sponsor.tier === "Diamond" ? (
+                      <SponsorCard
+                        key={sponsor.company}
+                        image={sponsor.image}
+                        companyName={sponsor.company}
+                        type={sponsor.tier as "Diamond" | "Gold" | "Silver" | "Bronze"}
+                        shadowcolor={sponsor.shadow_color}
+                        link={sponsor.link}
+                      />
+                    ) : null,
+                  )}
+                </div>
+                <p className="m-0 mt-[-30px] w-full text-center font-redhat text-2xl italic text-foreground xl:text-3xl">Current Featured Sponsors</p>
+              </div>
             </div>
           </div>
         </div>
