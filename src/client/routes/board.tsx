@@ -1,7 +1,7 @@
+import BoardMemberCard from "@/client/components/board/BoardMemberCard";
 import BoardPic from "@assets/board/BoardPic.jpg";
 import { imageUrls } from "@assets/imageUrls";
-import boardInfo from "@components/BoardInfo";
-import BoardMemberCard from "@components/BoardMemberCard";
+import boardInfo from "@components/board/BoardInfo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { applyOmbreDivider } from "../utils/ombre-divider";

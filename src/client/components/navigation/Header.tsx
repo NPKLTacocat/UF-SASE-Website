@@ -1,7 +1,7 @@
+import DarkButton from "@/client/components/custom_ui/DarkButton";
+import { DarkModeContext } from "@/client/components/custom_ui/DarkModeProvider";
 import { useAuth } from "@/client/hooks/AuthContext";
 import { cn } from "@/shared/utils";
-import DarkButton from "@components/DarkButton";
-import { DarkModeContext } from "@components/DarkModeProvider";
 import { useIsMobile } from "@hooks/useIsMobile";
 import { DesktopMenu } from "@navigation/DesktopMenu";
 import { Logo } from "@navigation/Logo";

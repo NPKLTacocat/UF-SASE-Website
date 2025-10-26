@@ -1,6 +1,6 @@
+import ClassConnectorForms from "@/client/components/resources/ClassConnectorForms";
 import { cn } from "@/shared/utils";
 import { imageUrls } from "@assets/imageUrls";
-import ClassConnectorForms from "@components/ClassConnectorForms";
 import FreshmenFAQ from "@components/resources/FreshmenFAQ";
 // import ResourcesCard from "@components/ResourcesCard";
 import { createFileRoute } from "@tanstack/react-router";

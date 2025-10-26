@@ -1,3 +1,4 @@
+import { useIsMobile } from "@/client/hooks/useIsMobile";
 import { cn } from "@/shared/utils";
 import Values from "@components/home/Values";
 import ProgramImages from "@components/programs/ProgramImages";
@@ -40,6 +41,8 @@ const checkisTestimonial = (slide: unknown): slide is Testimonial => {
 };
 
 const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
+  const isMobile = useIsMobile();
+
   let slides;
   if (purpose == "Testimonials") {
     slides = Testimonials.find((t) => t.program === prog)?.testimonials ?? [];
@@ -128,24 +131,30 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
   }, [emblaApi, setTweenNodes, setTweenFactor, tweenScale]);
 
   return (
-    <div
-      className={cn(
-        {
-          "flex items-center justify-center pb-8": purpose === "Testimonials",
-        },
-        `relative m-auto`,
-      )}
-    >
-      <div className="relative">
+    <div className="relative">
+      <div className="relative flex flex-row">
+        <div className="pointer-events-auto z-20 flex flex-col justify-center pr-[5%]">
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} purpose={purpose} className="static" />
+        </div>
+
         {purpose === "Images" ? (
-          <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent dark:from-black" />
+          <div className="absolute left-0 top-0 z-10 h-full w-[25%] bg-gradient-to-r from-white to-transparent dark:from-black" />
         ) : null}
-        {purpose === "Values" ? <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-black to-transparent" /> : null}
+        {purpose === "Values" ? <div className="absolute left-0 top-0 z-10 h-full w-[25%] bg-gradient-to-r from-black to-transparent" /> : null}
 
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex touch-pan-y touch-pinch-zoom">
             {slides.map((slide, index) => (
-              <div className="flex min-w-0 flex-[0_0_80%] items-center justify-center [transform:translate3d(0,0,0)] md:flex-[0_0_50%]" key={index}>
+              <div
+                className={cn(
+                  {
+                    "flex-[0_0_100%]": isMobile,
+                    "flex-[0_0_50%]": !isMobile,
+                  },
+                  `flex min-w-0 items-center justify-center [transform:translate3d(0,0,0)]`,
+                )}
+                key={index}
+              >
                 <div className="embla__slide__image rounded-2xl bg-gradient-to-r from-saseBlue via-[#7DC242] to-saseGreen p-[4px]">
                   {checkisValue(slide) ? (
                     <div className="rounded-[20px] bg-[linear-gradient(140deg,#7DC242_0%,#00AEEF_100%)] p-[3px]">
@@ -207,20 +216,13 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
         </div>
 
         {purpose === "Images" ? (
-          <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent dark:from-black" />
+          <div className="absolute right-0 top-0 z-10 h-full w-[25%] bg-gradient-to-l from-white to-transparent dark:from-black" />
         ) : null}
-        {purpose === "Values" ? <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-black to-transparent" /> : null}
+        {purpose === "Values" ? <div className="absolute right-0 top-0 z-10 h-full w-[25%] bg-gradient-to-l from-black to-transparent" /> : null}
 
-        {(purpose === "Testimonials" || purpose === "Values") && (
-          <div className="pointer-events-none absolute inset-y-0 -left-4 -right-4 z-30 flex items-center justify-between md:-left-6 md:-right-6">
-            <div className="pointer-events-auto">
-              <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} purpose={purpose} className="static" />
-            </div>
-            <div className="pointer-events-auto">
-              <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} purpose={purpose} className="static" />
-            </div>
-          </div>
-        )}
+        <div className="pointer-events-auto z-20 flex flex-col justify-center pl-[5%]">
+          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} purpose={purpose} className="static" />
+        </div>
       </div>
 
       <div className="mt-6 flex justify-center gap-2">
@@ -228,7 +230,7 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
           <button
             key={i}
             onClick={() => emblaApi?.scrollTo(i)}
-            className={`h-2 w-2 rounded-full transition-all ${selected === i ? "w-6 bg-white" : "bg-white/40 hover:bg-white/70"}`}
+            className={`h-2 w-2 rounded-full transition-all dark:bg-white ${selected === i ? "w-6 bg-black" : "bg-black/40 hover:bg-black/70"}`}
           />
         ))}
       </div>

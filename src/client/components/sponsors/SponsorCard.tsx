@@ -50,8 +50,7 @@ const SponsorCard = ({
             "text-slate-400": type === "Silver",
             "text-amber-700": type === "Bronze",
           },
-          compact ? "text-lg sm:text-2xl" : indexSizing ? "text-2xl sm:text-3xl" : "text-4xl",
-          "pb-1 text-center font-redhat font-semibold",
+          "pb-4 text-center font-redhat text-5xl font-semibold",
         )}
       >
         {type}
@@ -70,12 +69,7 @@ const SponsorCard = ({
         <Link to={link} className="absolute inset-0 z-10" />
 
         {/* Logo area */}
-        <div
-          className={cn(
-            "w-full overflow-hidden rounded-2xl",
-            compact ? "h-[120px] w-[98%] sm:h-[170px] sm:w-[98%]" : indexSizing ? "h-[220px] sm:h-[260px] md:h-[300px]" : "h-5/6",
-          )}
-        >
+        <div className="aspect-3/2 w-full overflow-hidden rounded-2xl">
           <img src={image} alt="Company Logo" className={cn("h-full w-full rounded-2xl", (compact || indexSizing) && "object-contain")} />
         </div>
 

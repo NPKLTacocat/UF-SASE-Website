@@ -1,4 +1,4 @@
-import DarkButton from "@components/DarkButton";
+import DarkButton from "@/client/components/custom_ui/DarkButton";
 import { useState } from "react";
 
 interface SettingsBoxProps {
