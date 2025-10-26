@@ -1,4 +1,4 @@
-import { imageUrls } from "../assets/imageUrls";
+import { imageUrls } from "@assets/imageUrls";
 
 const boardInfo = [
   {
