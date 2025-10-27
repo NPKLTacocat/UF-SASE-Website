@@ -1,4 +1,3 @@
-//import { imageUrls } from "@assets/imageUrls";
 import AdiyaNarayanan from "@assets/interns/AdityaNarayananTestimonial.png";
 import BryantCao from "@assets/interns/ByrantCaoTestimonial.png";
 import CadeFarrell from "@assets/interns/CadeFarrellTestimonial.png";
@@ -6,12 +5,13 @@ import ConnieHuang from "@assets/interns/ConnieHuangTestimonial.png";
 import KaylaChen from "@assets/interns/KaylaChenTestimonial.png";
 import MishaSonavadekar from "@assets/interns/MishaSonavadekarTestimonial.png";
 import SharleneKo from "@assets/interns/SharleneKoTestimonial.png";
-import SET2023 from "@assets/set/SetProject0.jpg";
-import SET2024 from "@assets/set/SetProject1.png";
-import SET2025 from "@assets/set/SetProject2.png";
+import SET2026 from "@assets/set/ComingSoon.jpg";
+import SET2023 from "@assets/set/SetProject22-23.jpg";
+import SET2024 from "@assets/set/SetProject23-24.png";
+import SET2025 from "@assets/set/SetProject24-25.png";
 import AshleyBurke from "@assets/sports/AshleyBurkeTestimonial.jpg";
-import BryanPark from "@assets/sports/BryanParkTestimonial.jpeg";
-import CameronMcMullen from "@assets/sports/CameronMcMullenTestimonial.jpeg";
+import BryanPark from "@assets/sports/BryanParkTestimonial.jpg";
+import CameronMcMullen from "@assets/sports/CameronMcMullenTestimonial.jpg";
 import TanTran from "@assets/sports/TanTranTestimonial.jpg";
 
 const Testimonials = [
@@ -87,17 +87,17 @@ const Testimonials = [
         image: SET2024,
       },
       {
-        name: "2025 Project Name",
+        name: "SET Rescue Dog",
         position: "2024-2025 Project",
         quote:
           "A roboting dog that can rescue people in dangerous situations 🐕‍🦺. This innovative project aims to assist in search and rescue missions while providing valuable experience in robotics, programming, and teamwork.",
         image: SET2025,
       },
       {
-        name: "2026 Project Name",
+        name: "2025-2026",
         position: "2025-2026 Project",
         quote: "Coming soon...",
-        image: SET2024,
+        image: SET2026,
       },
     ],
   },

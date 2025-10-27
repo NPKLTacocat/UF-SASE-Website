@@ -1,5 +1,5 @@
 // src/routes/profile/settings.tsx
-import { DarkModeContext } from "@components/DarkModeProvider";
+import { DarkModeContext } from "@/client/components/custom_ui/DarkModeProvider";
 import SettingsBox from "@components/profile/SettingsBox";
 import { createFileRoute } from "@tanstack/react-router";
 import { useContext } from "react";

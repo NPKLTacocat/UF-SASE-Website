@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { UserButton } from "@navigation/UserButton";
 import { useRouter } from "@tanstack/react-router";
 import React, { useEffect, useState } from "react";
-import DarkButton from "../DarkButton";
+import DarkButton from "../custom_ui/DarkButton";
 
 interface NavItem {
   name: string;

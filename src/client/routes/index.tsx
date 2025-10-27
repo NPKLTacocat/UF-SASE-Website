@@ -1,6 +1,7 @@
 import MemberCard from "@/client/components/home/MemberCard";
 import MissionCard from "@/client/components/home/MissionCard";
 import SponsorInfo from "@/client/components/sponsors/SponsorInfo";
+import { cn } from "@/shared/utils";
 import BoardPic from "@assets/home/Board.png";
 import { imageUrls } from "@assets/imageUrls";
 import Carousel from "@components/carousel/Carousel";
@@ -273,7 +274,7 @@ export const Route = createFileRoute("/")({
           </div>
         )}
 
-        <div className="w-full bg-black p-10">
+        <div className={cn({ "py-10": isMobile, "p-10": !isMobile }, `w-full bg-black py-10`)}>
           <h1 className="w-full pb-12 text-center font-oswald text-6xl font-medium text-white">Our Values</h1>
           <Carousel prog="N/A" purpose="Values" />
         </div>
