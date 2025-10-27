@@ -8,7 +8,7 @@ import AuthLayout from "../components/AuthLayout";
 import { SuccessModal } from "../components/SuccessModal";
 import { seo } from "../utils/seo";
 
-export const Route = createFileRoute("/email-verification")({
+export const Route = createFileRoute("/forgot-password")({
   meta: () => [
     ...seo({
       title: "Email Verification | UF SASE",

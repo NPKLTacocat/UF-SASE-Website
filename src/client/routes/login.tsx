@@ -33,7 +33,7 @@ export const Route = createFileRoute("/login")({
         navigate({ to: "/" });
       },
       onError: (err) => {
-        setErrorMessage("HUH" + err);
+        setErrorMessage(err.message);
       },
     });
 

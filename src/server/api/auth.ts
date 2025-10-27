@@ -1,95 +1,221 @@
 import { db } from "@/server/db/db";
+import { VerificationTemplate } from "@/server/email/verification-template";
 import { createErrorResponse, createSuccessResponse } from "@/shared/utils";
-import { professionalInfo, sessions, userRoleRelationship, users } from "@db/tables";
+import { pendingVerifications, professionalInfo, sessions, userRoleRelationship, users } from "@db/tables";
+import { SERVER_ENV } from "@server/env";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { generateIdFromEntropySize } from "lucia";
+import { Resend } from "resend";
 
-const { compare, genSalt, hash } = bcrypt;
+const { compare, hash } = bcrypt;
 
+const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*!@#$%^&*()\-_=+\\|[{}\];:'",<>./?])[A-Za-z\d!@#$%^&*()\-_=+\\|[{}\];:'",<>./?]{8,}$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const resend = new Resend(SERVER_ENV.RESEND_API_KEY);
 const authRoutes = new Hono();
 
-// Signup route
 authRoutes.post("/auth/signup", async (c) => {
-  const formData = await c.req.json();
-  const formUsername = formData["username"];
-  const formPassword = formData["password"];
-  const formEmail = formData["email"];
-  // TODO
-  // const formFirstName = formData["firstName"];
-  // const formLastName = formData["lastName"];
-
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*!@#$%^&*()\-_=+\\|[{}\];:'",<>./?])[A-Za-z\d!@#$%^&*()\-_=+\\|[{}\];:'",<>./?]{8,}$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const { email, password, username } = await c.req.json();
 
   //validate username
-  if (!formUsername || typeof formUsername !== "string") {
+  if (!username || typeof username !== "string") {
     return createErrorResponse(c, "INVALID_USERNAME", "Invalid username!", 400);
   }
   //validate password
-  if (!formPassword || typeof formPassword !== "string" || !passwordRegex.test(formPassword)) {
+  if (!password || typeof password !== "string" || !passwordRegex.test(password)) {
     return createErrorResponse(c, "INVALID_PASSWORD", "Invalid password from regex", 400);
   }
   //validate email
-  // add 3rd validation for email using regular expressions
-  if (!formEmail || typeof formEmail !== "string" || !emailRegex.test(formEmail)) {
-    console.log(formEmail);
+  if (!email || typeof email !== "string" || !emailRegex.test(email)) {
+    console.log(email);
     return createErrorResponse(c, "INVALID_EMAIL", "Invalid email!", 400);
   }
 
-  const passSalt = await genSalt(10);
-  const formPasswordHash = await hash(formPassword, passSalt);
+  try {
+    // Check if user already exists
+    const [existingEmail, existingUsername] = await Promise.all([
+      db.select().from(users).where(eq(users.email, email)).get(),
+      db.select().from(users).where(eq(users.username, username)).get(),
+    ]);
 
-  const userId = generateIdFromEntropySize(16); // 16 characters long
+    if (existingEmail) {
+      return createErrorResponse(c, "EMAIL_TAKEN", "Email already registered", 400);
+    }
+
+    if (existingUsername) {
+      return createErrorResponse(c, "USERNAME_TAKEN", "Username already taken", 400);
+    }
+
+    // Generate and store verification code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedCode = await hash(verificationCode, 10);
+    const hashedPassword = await hash(password, 10);
+
+    // Store pending verification
+    await db
+      .insert(pendingVerifications)
+      .values({
+        email,
+        code: hashedCode,
+        userData: JSON.stringify({ username, password: hashedPassword, email }),
+        expiresAt: Date.now() + 10 * 60 * 1000,
+      })
+      .onConflictDoUpdate({
+        target: pendingVerifications.email,
+        set: {
+          code: hashedCode,
+          userData: JSON.stringify({ username, password: hashedPassword, email }),
+          expiresAt: Date.now() + 10 * 60 * 1000,
+          attempts: 0,
+        },
+      });
+
+    // Send verification email
+    await resend.emails.send({
+      from: "UF SASE <alerts@email.ufsase.com>",
+      to: [email],
+      subject: `${verificationCode} is your verification code`,
+      react: VerificationTemplate({ code: verificationCode }),
+    });
+
+    return createSuccessResponse(c, { message: "Verification code sent" }, "Please check your email");
+  } catch (error) {
+    console.error(error);
+    return createErrorResponse(c, "SIGNUP_ERROR", "Error during signup", 500);
+  }
+});
+
+authRoutes.post("/auth/resend-code", async (c) => {
+  try {
+    const { email } = await c.req.json();
+    if (!email || typeof email !== "string") {
+      return createErrorResponse(c, "INVALID_INPUT", "Invalid email", 400);
+    }
+    const pending = await db.select().from(pendingVerifications).where(eq(pendingVerifications.email, email)).get();
+    if (!pending) {
+      return createErrorResponse(c, "NO_PENDING", "No verification pending", 400);
+    }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedCode = await hash(verificationCode, 10);
+
+    await db
+      .update(pendingVerifications)
+      .set({
+        code: hashedCode,
+        expiresAt: Date.now() + 10 * 60 * 1000,
+        attempts: 0,
+      })
+      .where(eq(pendingVerifications.email, email));
+
+    await resend.emails.send({
+      from: "UF SASE <alerts@email.ufsase.com>",
+      to: [email],
+      subject: `${verificationCode} is your verification code`,
+      react: VerificationTemplate({ code: verificationCode }),
+    });
+
+    return createSuccessResponse(c, { message: "Verification code resent" }, "Check your email");
+  } catch (err) {
+    console.error("Resend error:", err);
+    return createErrorResponse(c, "RESEND_ERROR", "Failed to resend code", 500);
+  }
+});
+
+authRoutes.post("/auth/verify-code", async (c) => {
+  const { code, email } = await c.req.json();
+
+  if (!code || typeof code !== "string" || !email || typeof email !== "string") {
+    return createErrorResponse(c, "INVALID_INPUT", "Invalid verification input", 400);
+  }
+  const pending = await db.select().from(pendingVerifications).where(eq(pendingVerifications.email, email)).get();
+
+  if (!pending) {
+    return createErrorResponse(c, "INVALID_CODE", "No verification pending", 400);
+  }
+
+  if (pending.expiresAt < Date.now()) {
+    await db.delete(pendingVerifications).where(eq(pendingVerifications.email, email));
+    return createErrorResponse(c, "CODE_EXPIRED", "Verification code expired", 400);
+  }
+
+  // Verify the code
+  const isValidCode = await compare(code, pending.code);
+  if (!isValidCode) {
+    const newAttempts = pending.attempts + 1;
+    await db
+      .update(pendingVerifications)
+      .set({ attempts: pending.attempts + 1 })
+      .where(eq(pendingVerifications.email, email));
+    if (newAttempts >= 3) {
+      await db.delete(pendingVerifications).where(eq(pendingVerifications.email, email));
+      return createErrorResponse(c, "TOO_MANY_ATTEMPTS", "Too many attempts, please register again", 400);
+    }
+    return createErrorResponse(c, "INVALID_CODE", "Invalid verification code", 400);
+  }
 
   try {
+    const userData = JSON.parse(pending.userData) as {
+      username: string;
+      password: string;
+      email: string;
+    };
+
+    const userId = generateIdFromEntropySize(16);
+
+    // Create verified user
     await db.insert(users).values({
       id: userId,
-      username: formUsername,
-      password: formPasswordHash,
-      email: formEmail,
-      // firstName: formFirstName,
-      // lastName: formLastName,
+      username: userData.username,
+      password: userData.password,
+      email: userData.email,
     });
 
-    await db.insert(professionalInfo).values({
-      userId,
-    });
-
+    // Set up additional user data
+    await db.insert(professionalInfo).values({ userId });
     await db.insert(userRoleRelationship).values({
       userId,
       role: "user",
     });
 
-    return createSuccessResponse(c, { userId }, "User successfully created");
+    // Remove pending verification
+    await db.delete(pendingVerifications).where(eq(pendingVerifications.email, email));
+
+    // Create session and log user in automatically
+    const sessionId = generateIdFromEntropySize(16);
+    await createSession(sessionId, userId);
+    c.header("Set-Cookie", `sessionId=${sessionId}; Path=/; HttpOnly; Secure; Max-Age=3600; SameSite=Strict`);
+
+    return createSuccessResponse(c, { userId, sessionId }, "Account created and logged in");
   } catch (error) {
-    console.log(error);
-    return createErrorResponse(c, "CREATE_USER_ERROR", "Error creating user", 400);
+    console.error(error);
+    return createErrorResponse(c, "VERIFICATION_ERROR", "Error completing signup", 500);
   }
 });
 
 // Login route
 authRoutes.post("/auth/login", async (c) => {
   const formData = await c.req.json();
-  const formUsername = formData["username"];
-  const formPassword = formData["password"];
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const username = formData["username"];
+  const password = formData["password"];
 
-  if (!formUsername || typeof formUsername !== "string" || formUsername.trim() === "") {
+  if (!username || typeof username !== "string" || username.trim() === "") {
     console.log("??????");
     return createErrorResponse(c, "INVALID_USERNAME", "Invalid username!", 401);
   }
 
-  if (!formPassword || typeof formPassword !== "string") {
+  if (!password || typeof password !== "string") {
     return createErrorResponse(c, "INVALID_PASSWORD", "Invalid password from login", 401);
   }
 
   let user;
-  if (emailRegex.test(formUsername)) {
-    user = await db.select().from(users).where(eq(users.email, formUsername));
+  if (emailRegex.test(username)) {
+    user = await db.select().from(users).where(eq(users.email, username));
   } else {
-    user = await db.select().from(users).where(eq(users.username, formUsername));
+    user = await db.select().from(users).where(eq(users.username, username));
   }
 
   if (user.length === 0) {
@@ -97,7 +223,7 @@ authRoutes.post("/auth/login", async (c) => {
     return createErrorResponse(c, "INVALID_CREDENTIALS", "Invalid username or password!", 401);
   }
 
-  const validPassword = await compare(formPassword, user[0].password);
+  const validPassword = await compare(password, user[0].password);
 
   if (!validPassword) {
     return createErrorResponse(c, "INVALID_PASSWORD", "Incorrect password!", 401);
