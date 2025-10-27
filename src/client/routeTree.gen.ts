@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as WebdevImport } from './routes/webdev'
+import { Route as VerifyEmailImport } from './routes/verify-email'
 import { Route as UserpageImport } from './routes/userpage'
 import { Route as SportsImport } from './routes/sports'
 import { Route as SponsorsImport } from './routes/sponsors'
@@ -25,8 +26,8 @@ import { Route as MentorMenteeImport } from './routes/mentor-mentee'
 import { Route as LoginImport } from './routes/login'
 import { Route as InternsImport } from './routes/interns'
 import { Route as GalleryImport } from './routes/gallery'
+import { Route as ForgotPasswordImport } from './routes/forgot-password'
 import { Route as EventsImport } from './routes/events'
-import { Route as EmailVerificationImport } from './routes/email-verification'
 import { Route as BoardImport } from './routes/board'
 import { Route as BlogsImport } from './routes/blogs'
 import { Route as AuthedImport } from './routes/authed'
@@ -45,6 +46,12 @@ import { Route as UsersUsernameIdImport } from './routes/users/$username/$id'
 const WebdevRoute = WebdevImport.update({
   id: '/webdev',
   path: '/webdev',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerifyEmailRoute = VerifyEmailImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -126,15 +133,15 @@ const GalleryRoute = GalleryImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const EventsRoute = EventsImport.update({
-  id: '/events',
-  path: '/events',
+const ForgotPasswordRoute = ForgotPasswordImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRoute,
 } as any)
 
-const EmailVerificationRoute = EmailVerificationImport.update({
-  id: '/email-verification',
-  path: '/email-verification',
+const EventsRoute = EventsImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -256,18 +263,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BoardImport
       parentRoute: typeof rootRoute
     }
-    '/email-verification': {
-      id: '/email-verification'
-      path: '/email-verification'
-      fullPath: '/email-verification'
-      preLoaderRoute: typeof EmailVerificationImport
-      parentRoute: typeof rootRoute
-    }
     '/events': {
       id: '/events'
       path: '/events'
       fullPath: '/events'
       preLoaderRoute: typeof EventsImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordImport
       parentRoute: typeof rootRoute
     }
     '/gallery': {
@@ -361,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserpageImport
       parentRoute: typeof rootRoute
     }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailImport
+      parentRoute: typeof rootRoute
+    }
     '/webdev': {
       id: '/webdev'
       path: '/webdev'
@@ -442,8 +456,8 @@ export interface FileRoutesByFullPath {
   '/authed': typeof AuthedRoute
   '/blogs': typeof BlogsRoute
   '/board': typeof BoardRoute
-  '/email-verification': typeof EmailVerificationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/gallery': typeof GalleryRoute
   '/interns': typeof InternsRoute
   '/login': typeof LoginRoute
@@ -457,6 +471,7 @@ export interface FileRoutesByFullPath {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -472,8 +487,8 @@ export interface FileRoutesByTo {
   '/authed': typeof AuthedRoute
   '/blogs': typeof BlogsRoute
   '/board': typeof BoardRoute
-  '/email-verification': typeof EmailVerificationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/gallery': typeof GalleryRoute
   '/interns': typeof InternsRoute
   '/login': typeof LoginRoute
@@ -487,6 +502,7 @@ export interface FileRoutesByTo {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -504,8 +520,8 @@ export interface FileRoutesById {
   '/authed': typeof AuthedRoute
   '/blogs': typeof BlogsRoute
   '/board': typeof BoardRoute
-  '/email-verification': typeof EmailVerificationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/gallery': typeof GalleryRoute
   '/interns': typeof InternsRoute
   '/login': typeof LoginRoute
@@ -519,6 +535,7 @@ export interface FileRoutesById {
   '/sponsors': typeof SponsorsRoute
   '/sports': typeof SportsRoute
   '/userpage': typeof UserpageRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/webdev': typeof WebdevRoute
   '/profile/dashboard': typeof ProfileDashboardRoute
   '/profile/info': typeof ProfileInfoRoute
@@ -537,8 +554,8 @@ export interface FileRouteTypes {
     | '/authed'
     | '/blogs'
     | '/board'
-    | '/email-verification'
     | '/events'
+    | '/forgot-password'
     | '/gallery'
     | '/interns'
     | '/login'
@@ -552,6 +569,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -566,8 +584,8 @@ export interface FileRouteTypes {
     | '/authed'
     | '/blogs'
     | '/board'
-    | '/email-verification'
     | '/events'
+    | '/forgot-password'
     | '/gallery'
     | '/interns'
     | '/login'
@@ -581,6 +599,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -596,8 +615,8 @@ export interface FileRouteTypes {
     | '/authed'
     | '/blogs'
     | '/board'
-    | '/email-verification'
     | '/events'
+    | '/forgot-password'
     | '/gallery'
     | '/interns'
     | '/login'
@@ -611,6 +630,7 @@ export interface FileRouteTypes {
     | '/sponsors'
     | '/sports'
     | '/userpage'
+    | '/verify-email'
     | '/webdev'
     | '/profile/dashboard'
     | '/profile/info'
@@ -628,8 +648,8 @@ export interface RootRouteChildren {
   AuthedRoute: typeof AuthedRoute
   BlogsRoute: typeof BlogsRoute
   BoardRoute: typeof BoardRoute
-  EmailVerificationRoute: typeof EmailVerificationRoute
   EventsRoute: typeof EventsRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   GalleryRoute: typeof GalleryRoute
   InternsRoute: typeof InternsRoute
   LoginRoute: typeof LoginRoute
@@ -643,6 +663,7 @@ export interface RootRouteChildren {
   SponsorsRoute: typeof SponsorsRoute
   SportsRoute: typeof SportsRoute
   UserpageRoute: typeof UserpageRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   WebdevRoute: typeof WebdevRoute
   UsersUsernameIdRoute: typeof UsersUsernameIdRoute
 }
@@ -654,8 +675,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthedRoute: AuthedRoute,
   BlogsRoute: BlogsRoute,
   BoardRoute: BoardRoute,
-  EmailVerificationRoute: EmailVerificationRoute,
   EventsRoute: EventsRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   GalleryRoute: GalleryRoute,
   InternsRoute: InternsRoute,
   LoginRoute: LoginRoute,
@@ -669,6 +690,7 @@ const rootRouteChildren: RootRouteChildren = {
   SponsorsRoute: SponsorsRoute,
   SportsRoute: SportsRoute,
   UserpageRoute: UserpageRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   WebdevRoute: WebdevRoute,
   UsersUsernameIdRoute: UsersUsernameIdRoute,
 }
@@ -689,8 +711,8 @@ export const routeTree = rootRoute
         "/authed",
         "/blogs",
         "/board",
-        "/email-verification",
         "/events",
+        "/forgot-password",
         "/gallery",
         "/interns",
         "/login",
@@ -704,6 +726,7 @@ export const routeTree = rootRoute
         "/sponsors",
         "/sports",
         "/userpage",
+        "/verify-email",
         "/webdev",
         "/users/$username/$id"
       ]
@@ -733,11 +756,11 @@ export const routeTree = rootRoute
     "/board": {
       "filePath": "board.tsx"
     },
-    "/email-verification": {
-      "filePath": "email-verification.tsx"
-    },
     "/events": {
       "filePath": "events.tsx"
+    },
+    "/forgot-password": {
+      "filePath": "forgot-password.tsx"
     },
     "/gallery": {
       "filePath": "gallery.tsx"
@@ -777,6 +800,9 @@ export const routeTree = rootRoute
     },
     "/userpage": {
       "filePath": "userpage.tsx"
+    },
+    "/verify-email": {
+      "filePath": "verify-email.tsx"
     },
     "/webdev": {
       "filePath": "webdev.tsx"

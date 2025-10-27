@@ -17,7 +17,7 @@ const MobileMemberCard = ({
 }) => {
   return (
     <div className="grid grid-cols-2 items-center gap-[10%] overflow-hidden py-6">
-      {imageSide == "left" ? <img src={image} alt={name} className="max-h-96 w-full rounded-2xl object-cover object-[5%]" /> : null}
+      {imageSide == "left" ? <img src={image} alt={name} className="aspect-square max-h-96 w-full rounded-2xl object-cover object-[5%]" /> : null}
       <div className="flex h-full flex-col justify-between py-[15%]">
         <div>
           <p
@@ -47,7 +47,7 @@ const MobileMemberCard = ({
         </div>
         <p className={cn({ "text-right": imageSide == "right" }, `pt-[25%] font-redhat text-lg italic sm:text-2xl md:text-3xl`)}>"{quote}"</p>
       </div>
-      {imageSide == "right" ? <img src={image} alt={name} className="max-h-96 w-full rounded-2xl object-cover object-[5%]" /> : null}
+      {imageSide == "right" ? <img src={image} alt={name} className="aspect-square max-h-96 w-full rounded-2xl object-cover object-[5%]" /> : null}
     </div>
   );
 };

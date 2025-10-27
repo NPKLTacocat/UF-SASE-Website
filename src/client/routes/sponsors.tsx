@@ -40,7 +40,7 @@ export const Route = createFileRoute("/sponsors")({
               <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
             </div>
             <p className="absolute bottom-[10%] pl-4 pr-4 text-center font-redhat text-base font-medium italic text-white md:text-xl lg:text-2xl xl:text-3xl">
-              To view our sponsorship packet, or for any related questions, please contact our External Vice President, Kayleen Diaz, at{" "}
+              To view our sponsorship packet, or for any related questions, please contact our External Vice President at{" "}
               <span>
                 <a href={`mailto:ufsase.evp@gmail.com`} className="text-saseGreen underline">
                   ufsase.evp@gmail.com
