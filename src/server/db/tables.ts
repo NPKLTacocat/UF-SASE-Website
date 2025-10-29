@@ -176,10 +176,13 @@ export const meetingSlides = sqliteTable("meeting_slides", {
 
 export const boardMemberHistory = sqliteTable("board_member_history", {
   name: text("name").notNull(),
+  description: text("description"),
+  fileName: text("fileName"),
+  role: text("role"),
+  email: text("email"),
+  bio: text("bio"),
   key: text("key").primaryKey(),
   url: text("url").notNull(),
   size: integer("size"),
   uploadedAt: text("uploaded_at"),
 });
-
-  
