@@ -3,7 +3,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
     question: "How do I sign up?",
     answer: (
       <>
-        Keep an eye out for <strong>Spring 2025</strong> applications on UF SASE’s{" "}
+        Keep an eye out for <strong>Spring 2026</strong> applications on UF SASE’s{" "}
         <a href="https://www.instagram.com/ufsase/" target="_blank" rel="noopener noreferrer" className="text-saseGreen underline">
           Instagram
         </a>{" "}
@@ -31,7 +31,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
         <a href="http://discord.gg/q3HBeC5" target="_blank" rel="noopener noreferrer" className="text-saseGreen underline">
           SASE Discord channel
         </a>{" "}
-        or contact our Webmaster, Ricky through Discord!
+        or contact our Webmasters, Lynette and Thuy, through Discord!
       </>
     ),
   },

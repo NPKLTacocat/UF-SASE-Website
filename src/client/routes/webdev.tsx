@@ -51,8 +51,11 @@ export const Route = createFileRoute("/webdev")({
             }
           />
         </div>
-        <div className="w-full max-w-7xl px-4 py-8">
+
+        <div className="w-full max-w-7xl p-8">
           <Carousel purpose="Images" prog="Web Dev" />
+
+          {/* Leadership */}
           <header className="mb-6 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Leadership</h2>
@@ -98,14 +101,20 @@ export const Route = createFileRoute("/webdev")({
               <MobileMemberCard image={UIUXLead} name="Catherine Wu" role="UI/UX" textColor="blue" quote="sigma Figma team" imageSide="left" />
             </>
           ) : (
-            <div className="grid grid-cols-1 gap-1 bg-background p-12 md:grid-cols-2 lg:grid-cols-5">
-              <MemberCard image={FullStackLead} name="Arman Kumaraswamy" role="Full-Stack" textColor="blue" quote="[object Object]" />
-              <MemberCard image={FrontEndLead} name="Joseph Kim" role="Frontend" textColor="green" quote="still don't how to center a div" />
-              <MemberCard image={WebmasterChair} name="Ricky Zhang" role="Webmaster" textColor="blue" quote="SASE deserves a better website" />
-              <MemberCard image={BackendLead} name="Sihala Senevirathne" role="Backend" textColor="green" quote="Ricky, please pay me" />
-              <MemberCard image={UIUXLead} name="Catherine Wu" role="UI/UX" textColor="blue" quote="sigma Figma team" />
+            <div className="mb-12 flex flex-col items-center justify-center gap-8">
+              <div className="flex flex-row gap-8">
+                <MemberCard image={FullStackLead} name="Arman Kumaraswamy" role="Full-Stack" textColor="blue" quote="[object Object]" />
+                <MemberCard image={WebmasterChair} name="Ricky Zhang" role="Webmaster" textColor="blue" quote="SASE deserves a better website" />
+              </div>
+              <div className="flex flex-row gap-8">
+                <MemberCard image={FrontEndLead} name="Joseph Kim" role="Frontend" textColor="green" quote="still don't how to center a div" />
+                <MemberCard image={BackendLead} name="Sihala Senevirathne" role="Backend" textColor="green" quote="Ricky, please pay me" />
+                <MemberCard image={UIUXLead} name="Catherine Wu" role="UI/UX" textColor="green" quote="sigma Figma team" />
+              </div>
             </div>
           )}
+
+          {/* Goals & Outcomes */}
           <header className="mb-12 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Goals & Outcomes</h2>

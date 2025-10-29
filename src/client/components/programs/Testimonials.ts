@@ -1,4 +1,3 @@
-//import { imageUrls } from "@assets/imageUrls";
 import AdiyaNarayanan from "@assets/interns/AdityaNarayananTestimonial.png";
 import BryantCao from "@assets/interns/ByrantCaoTestimonial.png";
 import CadeFarrell from "@assets/interns/CadeFarrellTestimonial.png";
@@ -6,8 +5,14 @@ import ConnieHuang from "@assets/interns/ConnieHuangTestimonial.png";
 import KaylaChen from "@assets/interns/KaylaChenTestimonial.png";
 import MishaSonavadekar from "@assets/interns/MishaSonavadekarTestimonial.png";
 import SharleneKo from "@assets/interns/SharleneKoTestimonial.png";
-import SET2024 from "@assets/set/SetProject.png";
-import CameronMcMullen from "@assets/sports/SportsTestimonial.jpeg";
+import SET2026 from "@assets/set/ComingSoon.jpg";
+import SET2023 from "@assets/set/SetProject22-23.jpg";
+import SET2024 from "@assets/set/SetProject23-24.png";
+import SET2025 from "@assets/set/SetProject24-25.png";
+import AshleyBurke from "@assets/sports/AshleyBurkeTestimonial.jpg";
+import BryanPark from "@assets/sports/BryanParkTestimonial.jpg";
+import CameronMcMullen from "@assets/sports/CameronMcMullenTestimonial.jpg";
+import TanTran from "@assets/sports/TanTranTestimonial.jpg";
 
 const Testimonials = [
   {
@@ -72,7 +77,7 @@ const Testimonials = [
         position: "2023 Project",
         quote:
           "During SET's first semester, SET successfully developed a campus cleaner robot designed to autonomously identify and pick up trash 🤖. This innovative project not only helped keep our campus clean but also provided valuable experience in robotics, programming, and teamwork.",
-        image: SET2024,
+        image: SET2023,
       },
       {
         name: "SET Dumpy",
@@ -82,16 +87,17 @@ const Testimonials = [
         image: SET2024,
       },
       {
-        name: "2025 Project Name",
+        name: "SET Rescue Dog",
         position: "2024-2025 Project",
-        quote: "Coming soon...",
-        image: SET2024,
+        quote:
+          "A roboting dog that can rescue people in dangerous situations 🐕‍🦺. This innovative project aims to assist in search and rescue missions while providing valuable experience in robotics, programming, and teamwork.",
+        image: SET2025,
       },
       {
-        name: "2026 Project Name",
+        name: "2025-2026",
         position: "2025-2026 Project",
         quote: "Coming soon...",
-        image: SET2024,
+        image: SET2026,
       },
     ],
   },
@@ -103,11 +109,11 @@ const Testimonials = [
     program: "Sports",
     testimonials: [
       {
-        name: "Cameron McMullen",
+        name: "Ashley Burke",
         position: "SASE Sports Member",
         quote:
-          "SASE sports is a fun way to connect with people while being active! I’m really glad I got to join and make friends while getting to play soccer again, and everyone is really nice to play with! We get to joke around and break a swear together, and I’ll cherish the memories and friends I made far beyond college.",
-        image: CameronMcMullen,
+          "My first experience with SASE Sports was playing outdoor women's soccer my sophomore year. I didn't know anyone at the time so I was super nervous but everyone was so friendly! Since then, I've played corec and women's outdoor soccer, indoor soccer, volleyball, dodgeball, and basketball with SASE teams and I've always had a great time. I've made so many lifelong friends through SASE and I've gotten the opportunity to play sports I don't normally play with some really cool people.",
+        image: AshleyBurke,
       },
       {
         name: "Cameron McMullen",
@@ -117,18 +123,18 @@ const Testimonials = [
         image: CameronMcMullen,
       },
       {
-        name: "Cameron McMullen",
+        name: "Bryan Park",
         position: "SASE Sports Member",
         quote:
-          "SASE sports is a fun way to connect with people while being active! I’m really glad I got to join and make friends while getting to play soccer again, and everyone is really nice to play with! We get to joke around and break a swear together, and I’ll cherish the memories and friends I made far beyond college.",
-        image: CameronMcMullen,
+          "My very first experience with SASE Sports was a casual frisbee event my freshmen year. I didn't know anyone at the time nor had I ever played ultimate frisbee, but everyone I met was super friendly and made the experience fun and enjoyable. Since then, I've had the chance to captain multiple intramural teams across different sports, meeting and playing with so many awesome people. I also had the honor of serving as Sports Coordinator my sophomore year, where I led the SASE Sports program. Thanks to SASE Sports, I've made so many friends and countless memories and it has undoubtedly been a core part of my time at UF.",
+        image: BryanPark,
       },
       {
-        name: "Cameron McMullen",
+        name: "Tan Tran",
         position: "SASE Sports Member",
         quote:
-          "SASE sports is a fun way to connect with people while being active! I’m really glad I got to join and make friends while getting to play soccer again, and everyone is really nice to play with! We get to joke around and break a swear together, and I’ll cherish the memories and friends I made far beyond college.",
-        image: CameronMcMullen,
+          "I’ve found SASE sports as a great community and one that I’ve been apart of ever since I arrived at UF. I look forward to the casual sports every week and participating in intramurals for SASE has been some of the most fun I’ve had thus far! Although the casuals can get a little serious at times, there is never a lack of community and openness whenever trying out new things. I encourage everyone who just wants to play the sports they enjoy or are looking for new interests to come out and play!",
+        image: TanTran,
       },
     ],
   },

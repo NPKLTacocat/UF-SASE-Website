@@ -11,23 +11,28 @@ interface AuthFormProps {
   onSubmit: (data: FormData) => void;
   title: string;
   buttonLabel: string;
-  linkText: string;
-  linkRoute: string;
+  linkText?: string;
+  linkRoute?: string;
   errorMessage?: string;
   isSignUp?: boolean;
   isResetPassword?: boolean;
   isEmailVerification?: boolean;
+  isVerification?: boolean;
   additionalButton?: { text: string; route: string };
+  resendAction?: {
+    onClick: () => void;
+    disabled: boolean;
+    text: string;
+  };
 }
 
 export interface FormData {
   username: string;
   email: string;
   password: string;
+  code: string;
   newPassword: string;
   retypePassword?: string;
-  firstName: string;
-  lastName: string;
 }
 
 // only styling
@@ -51,9 +56,11 @@ const AuthForm = ({
   isEmailVerification = false,
   isResetPassword = false,
   isSignUp = false,
+  isVerification = false,
   linkRoute,
   linkText,
   onSubmit,
+  resendAction,
   title,
 }: AuthFormProps) => {
   const {
@@ -61,7 +68,11 @@ const AuthForm = ({
     handleSubmit,
     register,
     watch,
-  } = useForm<FormData>({ mode: "all", defaultValues: { username: "", email: "", password: "", retypePassword: "" } });
+  } = useForm<FormData>({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    defaultValues: { username: "", email: "", password: "", retypePassword: "", code: "" },
+  });
 
   const password = watch("password");
   const handleFormSubmit: SubmitHandler<FormData> = (data) => {
@@ -101,7 +112,7 @@ const AuthForm = ({
           {errors.email && <span className="mb-1 font-redhat text-sm text-red-600">{errors.email.message}</span>}
         </>
       )}
-      {!isResetPassword && !isEmailVerification && (
+      {!isResetPassword && !isEmailVerification && !isVerification && (
         <>
           <StyledFormField icon="icon-[qlementine-icons--user-16]" hasError={!!errors.username}>
             <Input
@@ -152,6 +163,26 @@ const AuthForm = ({
             />
           </StyledFormField>
           {errors.password && <span className="mb-1 font-redhat text-sm text-red-600">{errors.password.message}</span>}
+        </>
+      )}
+      {isVerification && (
+        <>
+          <StyledFormField icon="icon-[material-symbols--mail-outline]" hasError={!!errors.code}>
+            <Input
+              id="code"
+              type="text"
+              maxLength={6}
+              {...register("code", {
+                required: "Verification code is required",
+                pattern: {
+                  value: /^\d{6}$/,
+                  message: "Code must be 6 digits",
+                },
+              })}
+              placeholder="Enter 6-digit code"
+            />
+          </StyledFormField>
+          {errors.code && <span className="mb-1 text-sm text-red-600">{errors.code.message}</span>}
         </>
       )}
       {isSignUp && (
@@ -214,19 +245,36 @@ const AuthForm = ({
       </Button>
       {!isResetPassword && (
         <p className="text-md mt-4 text-center font-redhat">
-          {linkText}{" "}
-          {isEmailVerification ? (
+          {isVerification && resendAction ? (
+            <>
+              Can't find your code?{" "}
+              <button
+                onClick={resendAction.onClick}
+                disabled={resendAction.disabled}
+                className="cursor-pointer text-saseBlue underline disabled:cursor-not-allowed disabled:text-gray-400"
+                type="button"
+              >
+                {resendAction.text}
+              </button>
+            </>
+          ) : isEmailVerification ? (
             <Link to="/login" className="cursor-pointer text-saseBlue underline">
               Back to login.
             </Link>
           ) : isSignUp ? (
-            <Link to={linkRoute} className="cursor-pointer text-saseBlue underline">
-              Login here.
-            </Link>
+            <>
+              {linkText}{" "}
+              <Link to={linkRoute} className="cursor-pointer text-saseBlue underline">
+                Login here.
+              </Link>
+            </>
           ) : (
-            <Link to="/email-verification" className="cursor-pointer text-saseBlue underline">
-              Click here to reset.
-            </Link>
+            <>
+              {linkText}{" "}
+              <Link to="/forgot-password" className="cursor-pointer text-saseBlue underline">
+                Click here to reset.
+              </Link>
+            </>
           )}
         </p>
       )}

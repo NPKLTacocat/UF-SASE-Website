@@ -21,6 +21,7 @@ module.exports = {
         saseTeal: "#3B9080",
         saseBlueLight: "#1E77BA",
         saseGray: " #CBCBD4",
+        saseGrayLight: "#F5F5F5",
         greenShadow: "#D4EEBA",
         blueShadow: "rgba(6, 104, 179, 0.58)",
         greenBackground: "#182825",

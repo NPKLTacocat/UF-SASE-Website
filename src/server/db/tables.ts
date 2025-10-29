@@ -186,3 +186,11 @@ export const boardMemberHistory = sqliteTable("board_member_history", {
   size: integer("size"),
   uploadedAt: text("uploaded_at"),
 });
+
+export const pendingVerifications = sqliteTable("pending_verifications", {
+  email: text("email").primaryKey(),
+  code: text("code").notNull(),
+  userData: text("user_data").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  attempts: integer("attempts").notNull().default(0),
+});

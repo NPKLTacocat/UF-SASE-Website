@@ -1,38 +1,46 @@
+import { OmbreBackground } from "@components/custom_ui/OmbreBackground";
 import React from "react";
 
 interface ProgramCardProps {
+  name: string;
   image: string;
   text: React.ReactNode;
   link: string;
+  number: string;
 }
 
-const ProgramCard: React.FC<ProgramCardProps> = ({ image, link, text }) => {
+const ProgramCard: React.FC<ProgramCardProps> = ({ image, link, name, number, text }) => {
   return (
-    <div className="relative mb-24 w-full max-w-6xl p-6">
-      <div className="group relative">
-        <div className="absolute left-5 top-5 z-0 h-full w-full rounded-3xl bg-gradient-to-b from-saseGreen to-saseBlue"></div>
-        <div className="absolute left-5 top-5 z-0 h-full w-full rounded-3xl bg-gradient-to-b from-saseBlue to-saseGreen opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"></div>
+    <div>
+      <OmbreBackground
+        innerComponent={
+          <div className="h-full w-full">
+            <div className="absolute -left-3 -top-3 z-20 flex h-10 w-14 items-center justify-center rounded-2xl border-l-4 border-t-4 border-border border-saseBlue bg-saseGrayLight">
+              <p className="pb- inline-block bg-gradient-to-r from-saseBlue to-saseGreen bg-clip-text font-redhat text-xl font-bold text-saseGreen text-transparent">
+                {number}/5
+              </p>
+            </div>
 
-        {/* Main Card */}
-        <div className="relative z-10 flex transform flex-col items-center rounded-3xl border-2 border-border bg-muted p-12 transition sm:flex-row">
-          {/* Image */}
-          <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-8">
-            <img src={image} alt="Program Image" className="h-[323px] w-[440px] rounded-2xl object-cover" />
+            <div className="relative z-10 flex h-full w-full flex-col items-center gap-4 rounded-2xl bg-muted bg-saseGrayLight p-6 shadow-saseGreen drop-shadow-[4px_4px_6px_var(--tw-shadow-color)]">
+              {/* Image */}
+              <div className="h-[20vw] min-h-[360px] w-full">
+                <img src={image} alt="Program Image" className="h-full w-full rounded-2xl object-fill" />
+              </div>
+
+              {/* Text Content */}
+              <div className="flex w-full flex-1 flex-col items-center justify-between gap-4 pt-2">
+                <h1 className="w-full text-left font-oswald text-5xl italic">{name}</h1>
+                <p className="font-redhat text-xl text-foreground">{text}</p>
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  <button className="mt-4 w-40 rounded-full bg-saseBlueLight py-2 text-center font-redhat text-lg italic text-white transition duration-300 hover:scale-105 hover:bg-saseBlue focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Learn More ...
+                  </button>
+                </a>
+              </div>
+            </div>
           </div>
-
-          {/* Text Content */}
-          <div className="flex flex-col justify-between">
-            <p className="mb-4 font-redhat text-xl text-foreground">{text}</p>
-
-            {/* Learn More Button */}
-            <a href={link} target="_blank" rel="noopener noreferrer">
-              <button className="mt-4 w-40 rounded-full bg-saseBlueLight py-2 text-center font-redhat text-lg italic text-white transition duration-300 hover:scale-105 hover:bg-saseBlue focus:outline-none focus:ring-2 focus:ring-blue-500">
-                LEARN MORE
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
+        }
+      />
     </div>
   );
 };

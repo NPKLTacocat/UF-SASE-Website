@@ -9,6 +9,7 @@ export interface AuthContextType {
   isAdmin: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  checkSession: () => Promise<void>;
   isLoading: boolean;
   id: string;
   errorMessage: string;
@@ -62,6 +63,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.error(err);
       setErrorMessage("Unknown error" + err);
       setIsAuthenticated(false);
+      throw err;
     } finally {
       setIsLoading(false);
     }
@@ -92,6 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAdmin,
         login,
         logout,
+        checkSession,
         isLoading,
         id,
         errorMessage,
