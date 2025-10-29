@@ -22,7 +22,7 @@ export const GeneralProgramsInfo: Array<{ program: string; description: string |
     program: "SASE Engineering Team (SET)",
     description: (
       <p>
-        The <span className="font-semibold text-saseGreen">SASE Engineering Team</span> works together on a yearlong project to explore technical
+        The <span className="font-semibold text-saseGreen">SASE Engineering Team</span> works together on a year-long project to explore technical
         creativity and problem-solving. Members gain hands-on experience, sharpen engineering and collaboration skills, and build impactful projects
         while growing in a supportive team environment.
       </p>
@@ -48,8 +48,8 @@ export const GeneralProgramsInfo: Array<{ program: string; description: string |
     program: "Intramural Sports",
     description: (
       <p>
-        <span className="font-semibold text-saseGreen">SASE Intramurals</span> offer sports like Volleyball, Soccer, Ultimate Frisbee, and Pickleball
-        year-round. It’s a fun way to meet new people, stay active, and enjoy friendly competition—no experience needed!
+        <span className="font-semibold text-saseGreen">SASE Intramurals</span> offer sports like Volleyball, Soccer, Basketball, Ultimate Frisbee, and
+        Pickleball year-round. It’s a fun way to meet new people, stay active, and enjoy friendly competition—no experience needed!
       </p>
     ),
     image: SaseSportsCard,

@@ -1,3 +1,5 @@
+import BlueStar from "@assets/other/BlueStar.png";
+import GreenStar from "@assets/other/GreenStar.png";
 import { OmbreBackground } from "@components/custom_ui/OmbreBackground";
 import React from "react";
 
@@ -27,9 +29,16 @@ const ProgramCard: React.FC<ProgramCardProps> = ({ image, link, name, number, te
                 <img src={image} alt="Program Image" className="h-full w-full rounded-2xl object-fill" />
               </div>
 
+              {/* Stars */}
+              <div className="flex w-full flex-row items-center justify-center">
+                <img src={BlueStar} alt="Blue star icon" />
+                <img src={GreenStar} alt="Green star icon" />
+                <img src={BlueStar} alt="Blue star icon" />
+              </div>
+
               {/* Text Content */}
-              <div className="flex w-full flex-1 flex-col items-center justify-between gap-4 pt-2">
-                <h1 className="w-full text-left font-oswald text-5xl italic">{name}</h1>
+              <div className="flex w-full flex-1 flex-col items-center justify-between gap-4">
+                <h1 className="w-full pb-2 text-center font-oswald text-5xl font-medium">{name}</h1>
                 <p className="font-redhat text-xl text-foreground">{text}</p>
                 <a href={link} target="_blank" rel="noopener noreferrer">
                   <button className="mt-4 w-40 rounded-full bg-saseBlueLight py-2 text-center font-redhat text-lg italic text-white transition duration-300 hover:scale-105 hover:bg-saseBlue focus:outline-none focus:ring-2 focus:ring-blue-500">

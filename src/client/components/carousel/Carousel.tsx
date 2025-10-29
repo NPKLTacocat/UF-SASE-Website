@@ -1,6 +1,6 @@
+import { Values } from "@/client/components/home/HomePageInfoArrays";
 import { useIsMobile } from "@/client/hooks/useIsMobile";
 import { cn } from "@/shared/utils";
-import Values from "@components/home/Values";
 import ProgramImages from "@components/programs/ProgramImages";
 import Testimonials from "@components/programs/Testimonials";
 import type { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
