@@ -247,7 +247,7 @@ const boardInfo = [
         major: "3rd Year Computer Science",
         contact: "ufsase.webmaster@gmail.com",
         description:
-          "Webmaster is truly a fulfilling role. I get to be in charge of 56 members in the Web Team, overlooking 3 different amazing projects, including this website right here:) I am so incredibly honored to be leading all of our amazing and talented members (and beyond proud of our team leads ^_^) Besides that, I am in charge of communicating with corporate engineers for our mentorship program, and directing the Hackathon Committee for SASEHacks.",
+          "Webmaster is truly a fulfilling role. I get to be in charge of 56 members in the Web Team alongside my co, overlooking 3 different amazing projects, including this website right here:) I am so incredibly honored to be leading all of our amazing and talented members (and beyond proud of our team leads ^_^) Besides that, I am in charge of communicating with corporate engineers for our mentorship program, and co-directing the Hackathon Committee for SASEHacks.",
       },
     ],
   },
