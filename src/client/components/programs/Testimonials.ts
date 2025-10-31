@@ -8,7 +8,7 @@ import SharleneKo from "@assets/interns/SharleneKoTestimonial.png";
 import AlexLoubricants from "@assets/m&m/AlexLoubricants.jpg";
 import AnnaLIMbs from "@assets/m&m/AnnaLIMbs.jpg";
 import ChooChooTrains from "@assets/m&m/ChooChooTrains.jpg";
-import LynetteHemingbirds from "@assets/m&m/LynetteHemingbirds.jpg";
+import Omlynettes from "@assets/m&m/Omlynettes.jpg";
 import SET2026 from "@assets/set/ComingSoon.jpg";
 import SET2023 from "@assets/set/SetProject22-23.jpg";
 import SET2024 from "@assets/set/SetProject23-24.png";
@@ -158,9 +158,9 @@ const Testimonials = [
         image: ChooChooTrains,
       },
       {
-        name: "Lynette's Hemingbirds",
+        name: "Omlynettes",
         position: "Led by: Lynette Hemingway",
-        image: LynetteHemingbirds,
+        image: Omlynettes,
       },
     ],
   },
