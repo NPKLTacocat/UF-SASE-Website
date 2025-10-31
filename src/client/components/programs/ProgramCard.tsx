@@ -17,13 +17,13 @@ const ProgramCard: React.FC<ProgramCardProps> = ({ image, link, name, number, te
       <OmbreBackground
         innerComponent={
           <div className="h-full w-full">
-            <div className="absolute -left-3 -top-3 z-20 flex h-10 w-14 items-center justify-center rounded-2xl border-l-4 border-t-4 border-border border-saseBlue bg-saseGrayLight">
+            <div className="absolute -left-3 -top-3 z-20 flex h-10 w-14 items-center justify-center rounded-2xl border-l-4 border-t-4 border-border border-saseBlue bg-saseGrayLight dark:bg-black">
               <p className="pb- inline-block bg-gradient-to-r from-saseBlue to-saseGreen bg-clip-text font-redhat text-xl font-bold text-saseGreen text-transparent">
                 {number}/5
               </p>
             </div>
 
-            <div className="relative z-10 flex h-full w-full flex-col items-center gap-4 rounded-2xl bg-muted bg-saseGrayLight p-6 shadow-saseGreen drop-shadow-[4px_4px_6px_var(--tw-shadow-color)]">
+            <div className="relative z-10 flex h-full w-full flex-col items-center gap-4 rounded-2xl bg-muted bg-saseGrayLight p-6 shadow-saseGreen drop-shadow-[4px_4px_6px_var(--tw-shadow-color)] dark:bg-black">
               {/* Image */}
               <div className="h-[20vw] min-h-[360px] w-full">
                 <img src={image} alt="Program Image" className="h-full w-full rounded-2xl object-fill" />
