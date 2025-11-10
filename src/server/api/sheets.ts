@@ -1,7 +1,6 @@
 import { SERVER_ENV } from "@server/env";
 import { createErrorResponse, createSuccessResponse } from "@shared/utils";
 import type { JWTInput } from "google-auth-library";
-import { google } from "googleapis";
 import { Hono } from "hono";
 import { z } from "zod";
 
@@ -10,12 +9,6 @@ const sheetsRoutes = new Hono();
 const sheetResponseSchema = z.object({
   data: z.array(z.array(z.string())),
 });
-
-const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(JSON.stringify(SERVER_ENV.GOOGLE_CREDENTIALS)) as JWTInput,
-  scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-});
-const sheets = google.sheets({ version: "v4", auth });
 
 const SHEET_IDS: Record<"board" | "marston", string> = {
   board: "10Wx6CTsjUDtoSTYmVplydyAfoCm55FGVUNhEQRpiYVY",
@@ -27,6 +20,15 @@ sheetsRoutes.get("/resources/sheet", async (c) => {
   if (which !== "board" && which !== "marston") {
     return createErrorResponse(c, "INVALID_SHEET", "Invalid or missing sheet name", 400);
   }
+
+  // dynamic import to ensure server-side only
+  const { google } = await import("googleapis");
+
+  const auth = new google.auth.GoogleAuth({
+    credentials: JSON.parse(JSON.stringify(SERVER_ENV.GOOGLE_CREDENTIALS)) as JWTInput,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+  });
+  const sheets = google.sheets({ version: "v4", auth });
 
   // compute range
   let range: string;
