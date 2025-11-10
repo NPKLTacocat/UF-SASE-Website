@@ -21,7 +21,7 @@ sheetsRoutes.get("/resources/sheet", async (c) => {
     return createErrorResponse(c, "INVALID_SHEET", "Invalid or missing sheet name", 400);
   }
 
-  // dynamic import to ensure server-side only
+  // dynamic import to ensure googleapis server-side only
   const { google } = await import("googleapis");
 
   const auth = new google.auth.GoogleAuth({
