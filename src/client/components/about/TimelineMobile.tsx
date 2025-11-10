@@ -99,14 +99,15 @@ const TimelineMobile = () => {
     <div className="scrollbar-custom max-h-[42rem] overflow-y-auto px-6 py-10">
       <div className="flex flex-col items-center gap-20">
         {defaultItems.map((item, index) => {
-          const isLeft = index % 2 === 0;
+          const isTop = index % 2 === 0;
           const showTopLeftStar = index % 2 === 0;
           const showBottomRightStar = index % 3 === 0;
+          const lastCard = index === defaultItems.length - 1;
 
           return (
             <div
               key={index}
-              className={`relative w-full max-w-[300px] transition-transform duration-500 ease-in-out hover:scale-[1.03] ${isLeft ? "ml-auto mr-4" : "ml-4 mr-auto"}`}
+              className={`relative w-full max-w-[300px] transition-transform duration-500 ease-in-out hover:scale-[1.03] ${isTop ? "mr-8" : "ml-8"}`}
             >
               {/* Glow background */}
               <div className="absolute inset-0 z-0 rounded-2xl bg-gradient-to-br from-saseBlue/20 to-saseGreen/10 opacity-70 blur-lg"></div>
@@ -115,8 +116,8 @@ const TimelineMobile = () => {
               <div className="bg-muted-background relative z-10 flex h-[180px] w-[300px] transform flex-col rounded-2xl border-2 border-border p-4 shadow-[0px_10px_0px_#7DC242] duration-300 hover:shadow-[0px_10px_0px_#0668B3]">
                 {/* Optional Stars */}
                 {showTopLeftStar && (
-                  <div className="animate-pulse-slow absolute -left-5 -top-5 z-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="#0668B3" viewBox="0 0 24 24" className="h-12 w-12 drop-shadow-md">
+                  <div className="absolute -left-5 -top-5 z-20 animate-pulse">
+                    <svg xmlns="@assets/programs/StarBulletPoint.png" fill="#0668B3" viewBox="0 0 24 24" className="h-12 w-12 drop-shadow-md">
                       <path d="M12 3l2.5 6.5L21 10l-5 4 1.5 7L12 17l-5.5 4L8 14 3 10l6.5-.5L12 3z" />
                     </svg>
                   </div>
@@ -133,6 +134,14 @@ const TimelineMobile = () => {
                 <h3 className="mt-1 text-lg font-bold text-foreground">{item.title}</h3>
                 <p className="mt-2 text-sm leading-snug text-foreground">{item.description}</p>
               </div>
+
+              {/* Connector Line */}
+              {!lastCard && (
+                <div className={`absolute -bottom-20 right-1/2 h-20 w-1 bg-saseBlue`}>
+                  {/* Connecting Dot */}
+                  <div className={`absolute -left-1.5 bottom-1/2 h-4 w-4 rounded-full bg-saseBlue`} />
+                </div>
+              )}
             </div>
           );
         })}

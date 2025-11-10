@@ -66,6 +66,37 @@ const EventsSlides: React.FC = () => {
         });
         const display = Array.from(semesterMap.values());
 
+        // sort slides within each semester by relative_order
+        display.forEach((semester) => {
+          semester.slides.sort((a, b) => {
+            const r = (a.relative_order ?? 0) - (b.relative_order ?? 0);
+            if (r !== 0) return r;
+            return b.date.getTime() - a.date.getTime();
+          });
+        });
+
+        const TERM_ORDER: Record<string, number> = { Spring: 1, Summer: 2, Fall: 3 };
+
+        const termRank = (name: string) => {
+          const parts = name.trim().split(/\s+/);
+          let year = 0;
+          let term = "";
+
+          if (parts.length >= 2) {
+            if (/^\d{4}$/.test(parts[0])) {
+              year = Number(parts[0]);
+              term = parts.slice(1).join(" ");
+            } else if (/^\d{4}$/.test(parts[1])) {
+              term = parts[0];
+              year = Number(parts[1]);
+            }
+          }
+          return year * 10 + (TERM_ORDER[term] ?? 0);
+        };
+
+        // newest semester first (2025 Spring before 2024 Fall)
+        display.sort((a, b) => termRank(b.name) - termRank(a.name));
+
         setSemesters(display);
         setLoading(false);
       } catch (error) {
@@ -107,7 +138,7 @@ const EventsSlides: React.FC = () => {
       )}
 
       {/* View Dropdown (Top right) */}
-      <div ref={dropdownRef} className="absolute right-5 top-5 z-10">
+      <div ref={dropdownRef} className="absolute right-5 top-5 z-10 hidden">
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           className="flex w-40 items-center justify-between rounded-xl border border-foreground bg-background px-2 py-2 font-redhat text-foreground"
