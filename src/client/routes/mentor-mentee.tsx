@@ -1,11 +1,18 @@
-import { faqData as mentorFaqData } from "@/client/components/programs/MentorMentee/MMfaq"; // assumed analogous to faqInterns
+import { faqData as mentorFaqData } from "@/client/components/programs/MentorMentee/MMfaq";
 import { imageUrls } from "@assets/imageUrls";
+import MMGraphic from "@assets/programs/MMgraphic.png";
+import StarBulletPoint from "@assets/programs/StarBulletPoint.png";
+import Carousel from "@components/carousel/Carousel";
+import { OmbreBackground } from "@components/custom_ui/OmbreBackground";
 import FAQ from "@components/programs/FAQCard";
 import InfoCard from "@components/programs/InfoCard";
+import { MMGoalCard } from "@components/programs/MentorMentee/MMGoalCard";
 import MMPairingForm from "@components/programs/MentorMentee/MMPairingForm";
-import { ClientOnly } from "@shared/utils";
+import { useIsMobile } from "@hooks/useIsMobile";
+import { ClientOnly, cn } from "@shared/utils";
 import { createFileRoute } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { applyOmbreDivider } from "../utils/ombre-divider";
 import { seo } from "../utils/seo";
 
 const MentorMenteeGraph = lazy(() => import("@/client/components/programs/MentorMentee/MMGraph"));
@@ -21,8 +28,13 @@ export const Route = createFileRoute("/mentor-mentee")({
   ],
 
   component: () => {
+    const isMobile = useIsMobile();
+    useEffect(() => {
+      applyOmbreDivider();
+    });
+
     return (
-      <div className="mt-12 flex min-h-screen flex-col items-center bg-background">
+      <div className="flex min-h-screen flex-col items-center bg-background">
         <ClientOnly>
           <div className="flex w-full flex-1">
             <Suspense
@@ -37,19 +49,19 @@ export const Route = createFileRoute("/mentor-mentee")({
           </div>
         </ClientOnly>
 
-        <MMPairingForm></MMPairingForm>
+        <MMPairingForm />
 
         {/* Header Section */}
-        <div className="flex w-full max-w-7xl flex-col items-start px-4 py-8 sm:flex-row">
+        <div className={cn({ "flex-col gap-4": isMobile, "flex-row, justify-between": !isMobile }, `flex max-w-7xl py-8`)}>
           <header className="mr-8 mt-10 flex items-center px-5">
             <div className="mr-5 h-40 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-7xl font-semibold leading-tight text-foreground">
-              SASE
-              <br />
               MENTOR MENTEE
+              <br />
+              PROGRAM
             </h2>
           </header>
-          <div className="w-1/2">
+          <div className={cn({ "w-1/2": !isMobile })}>
             <InfoCard
               text={
                 <>
@@ -63,123 +75,78 @@ export const Route = createFileRoute("/mentor-mentee")({
           </div>
         </div>
 
-        <div className="w-relative mt-6 max-w-7xl px-4">
-          <div className="w-relative h-relative flex flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-blue-500 to-green-500 p-6 text-white sm:flex-row">
-            {/* Left Section: Bullet List */}
-            <div className="flex h-full flex-1 items-center justify-center">
-              <ul className="space-y-8">
-                {[
-                  "Available both Fall and Spring Semesters",
-                  "Anyone can apply to be a mentee regardless of grade or major!",
-                  "Apply as soon as possible to ensure you are assigned a mentor!",
-                ].map((text, index) => (
-                  <li key={index} className="flex items-center">
-                    <img src="src/client/assets/programs/StarBulletPoint.png" alt="bullet" className="mr-4 h-12 w-12" />
-                    <span className="font-redhat text-[32px] font-bold leading-[35px] text-[#F5F5F5]">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* Image & Bullet Points on Ombre Background */}
+        <div className="w-full max-w-7xl">
+          <OmbreBackground
+            innerComponent={
+              <div
+                className={cn({ "flex flex-col": isMobile, "grid grid-cols-[1fr_2fr]": !isMobile }, `items-center justify-center gap-4 px-8 py-4`)}
+              >
+                <img src={MMGraphic} alt="Mentor-Mentee Graphic" className="max-w-sm object-contain" />
 
-            {/* Right Section: MM Graphic */}
-            <div className="flex flex-col items-center justify-center sm:mt-0">
-              <img src="src/client/assets/programs/MMgraphic.png" alt="Mentor-Mentee Graphic" className="h-[553px] w-[557.6px] object-contain" />
-            </div>
-          </div>
+                <ul className="flex h-full flex-col justify-between space-y-6 py-12">
+                  {[
+                    "Available both Fall and Spring Semesters",
+                    "Anyone can apply to be a mentee regardless of grade or major!",
+                    "Apply as soon as possible to ensure you are assigned a mentor!",
+                  ].map((text, index) => (
+                    <li key={index} className="flex items-center">
+                      <img src={StarBulletPoint} alt="bullet" className="mr-4 h-12 w-12" />
+                      <span className="font-redhat text-3xl font-medium leading-[35px] text-white"> {text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            }
+          />
         </div>
 
-        <div className="w-full max-w-7xl px-4 py-8">
-          <div className="flex flex-col-reverse gap-10 lg:flex-row">
-            {/* LEFT: All the text content */}
-            <div className="flex flex-1 flex-col">
-              {/* Mentor Mentee Events Section */}
-              <div className="pl-5">
-                <header className="mb-6 flex items-center px-5 font-oswald">
-                  <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-                  <h2 className="text-4xl text-foreground">Mentor Mentee Events</h2>
-                </header>
-                <div className="mb-24">
-                  <p className="w-[380px] text-left font-redhat text-[28px] leading-[40px]">
-                    Join us for some fun and lighthearted events designed to{" "}
-                    <strong>spark meaningful interactions between mentors and mentees!</strong> Participate in a variety of silly and competitive
-                    challenges that encourage teamwork, laughter, and connection.
-                  </p>
-                </div>
+        {/* M&M Events Section */}
+        <div className="ombre-divider max-w-7xl" />
+        <div className="my-[-20px] flex w-full flex-col gap-8 bg-saseGrayLight px-[10%] py-8">
+          <h1 className="w-full text-center font-oswald text-6xl font-medium text-black">M&M Events</h1>
+          <OmbreBackground
+            innerComponent={
+              <div className="rounded-2xl bg-saseGrayLight p-4">
+                <p className="text-center font-redhat text-xl">
+                  Join us for some fun and lighthearted events designed to <strong>spark meaningful interactions between mentors and mentees!</strong>{" "}
+                  Participate in a variety of silly and competitive challenges that encourage teamwork, laughter, and connection.
+                </p>
+                <br />
+                <p className="text-center font-redhat text-xl">
+                  Our <strong>featured event</strong> is our <span className="font-medium text-saseBlue">Mentor</span> &{" "}
+                  <span className="font-medium text-saseGreen">Mentee</span> Cup. Earn points by completing activities together, and see how many
+                  challenges you can conquer with your mentor or mentee. It's all about bonding, having fun, and maybe even winning some bragging
+                  rights!
+                </p>
               </div>
+            }
+          />
+          <Carousel purpose="Testimonials" prog="M&M" />
+        </div>
+        <div className="ombre-divider max-w-7xl" />
 
-              {/* Featured Events Section */}
-              {/* Featured Events Section */}
-              <div>
-                <header className="mb-6 flex items-center px-5 font-oswald">
-                  <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-                  <h2 className="text-4xl text-foreground">Featured Events</h2>
-                </header>
-
-                {/* Mentor & Mentee Cup Subheading */}
-                <h3 className="mb-4 px-5 font-redhat text-[45px] font-semibold leading-[60px]">
-                  <span className="text-[#0668B3]">Mentor</span> & <span className="text-[#7DC242]">Mentee</span> Cup
-                </h3>
-                <div className="mb-24">
-                  <p className="w-[380px] px-5 text-left font-redhat text-[28px] leading-[40px]">
-                    Earn points by completing activities together, and see how many challenges you can conquer with your mentor or mentee. It's all
-                    about bonding, having fun, and maybe even winning some bragging rights!
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT: One tall vertical gradient box */}
-            <div className="h-[1000px] w-[652px] rounded-3xl bg-gradient-to-r from-blue-500 to-green-500 shadow-lg lg:block" />
-          </div>
-
-          <header className="mb-6 flex max-w-7xl items-center px-5 font-oswald">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="text-4xl text-foreground">Goals & Outcomes</h2>
-          </header>
-          <div className="relative mx-auto mb-24 flex max-w-7xl flex-wrap items-center justify-center gap-12 px-4">
-            {/* Card 1 */}
-            <div className="relative flex h-[375px] w-[375px] items-center justify-center rounded-full bg-[#0668B3] shadow-[0_25px_4px_rgba(125,194,66,0.5)]">
-              <p className="absolute w-[300px] text-center font-redhat text-[32px] font-semibold leading-[42px] text-white">
-                Build meaningful, genuine friendships with new people that go beyond academics!
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="relative flex h-[375px] w-[375px] items-center justify-center rounded-full bg-[#7DC242] shadow-[0_25px_4px_rgba(6,104,79,0.5)]">
-              <p className="absolute w-[300px] text-center font-redhat text-[32px] font-semibold leading-[42px] text-white">
-                Bond, explore, and create unforgettable memories along the way!
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="relative flex h-[375px] w-[375px] items-center justify-center rounded-full bg-[#0668B3] shadow-[0_25px_4px_rgba(125,194,66,0.5)]">
-              <p className="absolute w-[300px] text-center font-redhat text-[32px] font-semibold leading-[42px] text-white">
-                Surround yourself with a reliable support system of mentors and peers!
-              </p>
+        {/* Goals & Outcomes and FAQ Section */}
+        <div className="mt-8 flex max-w-7xl flex-col gap-[16px]">
+          <div className="flex w-full flex-col">
+            <header className="mb-8 flex items-center px-5 font-oswald">
+              <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
+              <h2 className="text-4xl text-foreground">Goals & Outcomes</h2>
+            </header>
+            <div className="relative mx-auto mb-24 flex max-w-7xl flex-wrap items-center justify-center gap-12 px-4">
+              <MMGoalCard text="Build meaningful, genuine friendships with new people that go beyond academics!" cardColor="green" />
+              <MMGoalCard text="Bond, explore, and create unforgettable memories along the way!" cardColor="blue" />
+              <MMGoalCard text="Surround yourself with a reliable support system of mentors and peers!" cardColor="green" />
             </div>
           </div>
-          <div className="relative flex-row items-center justify-center gap-10 px-4 py-8 sm:flex">
-            <p className="absolute w-[300px] text-center font-redhat text-[32px] font-semibold leading-[42px]"></p>
-            <InfoCard
-              text={
-                <>
-                  Apply to be <span className="text-[#7DC242]">MENTEE</span>
-                </>
-              }
-            />
-            <InfoCard
-              text={
-                <>
-                  Apply to be <span className="text-[#0668B3]">MENTOR</span>
-                </>
-              }
-            />
+
+          <div className="flex w-full flex-col">
+            <header className="flex max-w-7xl items-center px-5">
+              <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
+              <h2 className="font-oswald text-4xl text-foreground">FAQs</h2>
+            </header>
+            <FAQ faqData={mentorFaqData} />
           </div>
-          <header className="flex max-w-7xl items-center px-5 font-oswald">
-            <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
-            <h2 className="text-4xl text-foreground">FAQs</h2>
-          </header>
-          <FAQ faqData={mentorFaqData} />
         </div>
       </div>
     );

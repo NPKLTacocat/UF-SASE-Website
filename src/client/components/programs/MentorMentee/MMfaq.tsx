@@ -9,6 +9,7 @@ export const faqData = [
   },
   {
     question: "I have more questions!",
-    answer: "Feel free to ask your questions in the SASE Discord channel or contact our Technical Chairs, Kevin and Manav, through Discord.",
+    answer:
+      "Feel free to ask your questions in the SASE Discord channel or contact our Member Involvement Chairs, Michael and Connie, through Discord.",
   },
 ];

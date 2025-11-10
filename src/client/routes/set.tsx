@@ -45,16 +45,18 @@ export const Route = createFileRoute("/set")({
         </div>
         <div className="w-full max-w-7xl px-4 py-8">
           <Carousel purpose="Images" prog="SET" />
+          <div className="mb-16" />
           <header className="mb-6 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Past Projects</h2>
           </header>
           <Carousel purpose="Testimonials" prog="SET" />
+          <div className="mb-16" />
           <header className="mb-12 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Goals & Outcomes</h2>
           </header>
-          <div className="mb-24 flex flex-col flex-nowrap items-center justify-center gap-10 md:flex-row lg:gap-36">
+          <div className="mb-16 flex flex-col flex-nowrap items-center justify-center gap-10 md:flex-row lg:gap-36">
             <GoalCard text="Get more involved in SASE, especially for first and second years." color="blue" />
             <GoalCard text="Develop essential technical skills and experiences to add to your resume." color="green" />
             <GoalCard text="Connect with other SASErs and develop leadership skills through hands-on projects." color="blue" />

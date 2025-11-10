@@ -16,7 +16,7 @@ const MobileMemberCard = ({
   imageSide: string;
 }) => {
   return (
-    <div className="grid grid-cols-2 items-center gap-[10%] overflow-hidden py-6">
+    <div className="grid grid-cols-2 items-center gap-[10%] overflow-hidden px-3 py-6">
       {imageSide == "left" ? <img src={image} alt={name} className="aspect-square max-h-96 w-full rounded-2xl object-cover object-[5%]" /> : null}
       <div className="flex h-full flex-col justify-between py-[15%]">
         <div>

@@ -12,10 +12,10 @@ interface SponsorStyle {
 type SponsorType = "Diamond" | "Gold" | "Silver" | "Bronze";
 
 const typeStyles: Record<SponsorType, SponsorStyle> = {
-  Diamond: { src: imageUrls["Diamond.png"], size: "h-[30%]", translateY: "-translate-y-1/3", rotate: "rotate-[-15deg]" },
-  Gold: { src: imageUrls["Gold.png"], size: "h-[30%]", translateY: "-translate-y-1/3" },
-  Silver: { src: imageUrls["Silver.png"], size: "h-[30%]", translateY: "-translate-y-1/3" },
-  Bronze: { src: imageUrls["Bronze.png"], size: "h-[30%]", translateY: "-translate-y-1/3" },
+  Diamond: { src: imageUrls["Diamond.png"], size: "w-[30%]", translateY: "-translate-y-1/3", rotate: "rotate-[-15deg]" },
+  Gold: { src: imageUrls["Gold.png"], size: "w-[30%]", translateY: "-translate-y-1/3" },
+  Silver: { src: imageUrls["Silver.png"], size: "w-[30%]", translateY: "-translate-y-1/3" },
+  Bronze: { src: imageUrls["Bronze.png"], size: "w-[30%]", translateY: "-translate-y-1/3" },
 };
 
 interface SponsorCardProps {
@@ -26,6 +26,7 @@ interface SponsorCardProps {
   type: SponsorType;
   mobileVariant?: "default" | "compact";
   indexSizing?: boolean;
+  location?: "home" | "sponsors";
 }
 
 const SponsorCard = ({
@@ -33,6 +34,7 @@ const SponsorCard = ({
   image,
   indexSizing = false,
   link,
+  location = "sponsors",
   mobileVariant = "default",
   shadowcolor: _shadowcolor,
   type,
@@ -49,8 +51,11 @@ const SponsorCard = ({
             "text-amber-300": type === "Gold",
             "text-slate-400": type === "Silver",
             "text-amber-700": type === "Bronze",
+            "text-2xl": compact && location == "home",
+            "text-3xl": !compact && location == "home",
+            "text-5xl": location != "home",
           },
-          "pb-4 text-center font-redhat text-5xl font-semibold",
+          "w-full pb-4 text-center font-redhat font-semibold",
         )}
       >
         {type}
@@ -91,7 +96,6 @@ const SponsorCard = ({
             className={cn(
               "absolute left-0 top-0 -translate-x-1/2",
               typeStyles[type].size,
-              compact ? "h-10 sm:h-[40%]" : typeStyles[type].size,
               typeStyles[type].translateY,
               typeStyles[type].rotate ?? "",
             )}

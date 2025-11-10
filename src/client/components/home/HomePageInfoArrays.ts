@@ -11,14 +11,12 @@ const SocialsPhoto = imageUrls["SocialsValue.jpg"];
 const SportsIcon = imageUrls["SportsValueIcon.png"];
 const SportsPhoto = imageUrls["SportsValue.jpg"];
 
-type Value = {
+export const Values: Array<{
   img: string;
   icon: string;
   value: string;
   text: string;
-};
-
-const Values: Array<Value> = [
+}> = [
   {
     img: ProfDevPhoto,
     icon: ProfDevIcon,
@@ -51,4 +49,62 @@ const Values: Array<Value> = [
   },
 ];
 
-export default Values;
+export const Missions: Array<{
+  image: string;
+  mission: string;
+  text: string;
+  shadow: "green" | "blue";
+}> = [
+  {
+    image: imageUrls["Briefcase.png"],
+    mission: "Professional Development",
+    text: "To prepare Asian heritage students for success in the transnational, global business world.",
+    shadow: "green",
+  },
+  {
+    image: imageUrls["People.png"],
+    mission: "Diversity",
+    text: "To promote diversity and tolerance on campuses and in the workplace.",
+    shadow: "blue",
+  },
+  {
+    image: imageUrls["Lightbulb.png"],
+    mission: "Community",
+    text: "To provide opportunities for its members to make contributions to their local communities.",
+    shadow: "green",
+  },
+];
+
+export const People: Array<{
+  fullName: string;
+  position: string;
+  image: string;
+  quote: string;
+  fontColor: "green" | "blue";
+  mobileAlignment: "left" | "right";
+}> = [
+  {
+    fullName: "Vincent Lin",
+    position: "2024 - 2025 President",
+    image: imageUrls["President.jpeg"],
+    quote: "Love the SASE Community :)",
+    fontColor: "blue",
+    mobileAlignment: "left",
+  },
+  {
+    fullName: "Bryan Park",
+    position: "2024 - 2025 Internal Vice President",
+    image: imageUrls["InternalVicePresident.jpeg"],
+    quote: "I love SASE <3",
+    fontColor: "green",
+    mobileAlignment: "right",
+  },
+  {
+    fullName: "Kayleen Diaz",
+    position: "2024 - 2025 External Vice President",
+    image: imageUrls["ExternalVicePresident.jpeg"],
+    quote: "Grow professionally with SASE! :D",
+    fontColor: "blue",
+    mobileAlignment: "left",
+  },
+];
