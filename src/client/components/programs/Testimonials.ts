@@ -5,6 +5,10 @@ import ConnieHuang from "@assets/interns/ConnieHuangTestimonial.png";
 import KaylaChen from "@assets/interns/KaylaChenTestimonial.png";
 import MishaSonavadekar from "@assets/interns/MishaSonavadekarTestimonial.png";
 import SharleneKo from "@assets/interns/SharleneKoTestimonial.png";
+import AlexLoubricants from "@assets/m&m/AlexLoubricants.jpg";
+import AnnaLIMbs from "@assets/m&m/AnnaLIMbs.jpg";
+import ChooChooTrains from "@assets/m&m/ChooChooTrains.jpg";
+import Omlynettes from "@assets/m&m/Omlynettes.jpg";
 import SET2026 from "@assets/set/ComingSoon.jpg";
 import SET2023 from "@assets/set/SetProject22-23.jpg";
 import SET2024 from "@assets/set/SetProject23-24.png";
@@ -75,22 +79,19 @@ const Testimonials = [
       {
         name: "SET Bro",
         position: "2023 Project",
-        quote:
-          "During SET's first semester, SET successfully developed a campus cleaner robot designed to autonomously identify and pick up trash 🤖. This innovative project not only helped keep our campus clean but also provided valuable experience in robotics, programming, and teamwork.",
+        quote: "During SET's first semester, SET successfully developed a robot that could record and copy voices 🤖.",
         image: SET2023,
       },
       {
         name: "SET Dumpy",
         position: "2023-2024 Project",
-        quote:
-          "A campus cleaner robot designed to autonomously identify and pick up trash 🤖. This innovative project keeps our campus clean and provided valuable experience in robotics, programming, and teamwork.",
+        quote: "A campus cleaner robot designed to autonomously identify and pick up trash, helping keep our campus clean 🗑️.",
         image: SET2024,
       },
       {
         name: "SET Rescue Dog",
         position: "2024-2025 Project",
-        quote:
-          "A roboting dog that can rescue people in dangerous situations 🐕‍🦺. This innovative project aims to assist in search and rescue missions while providing valuable experience in robotics, programming, and teamwork.",
+        quote: "A roboting dog that can rescue people in dangerous situations, assisting in search and rescue missions 🐕‍🦺.",
         image: SET2025,
       },
       {
@@ -112,7 +113,7 @@ const Testimonials = [
         name: "Ashley Burke",
         position: "SASE Sports Member",
         quote:
-          "My first experience with SASE Sports was playing outdoor women's soccer my sophomore year. I didn't know anyone at the time so I was super nervous but everyone was so friendly! Since then, I've played corec and women's outdoor soccer, indoor soccer, volleyball, dodgeball, and basketball with SASE teams and I've always had a great time. I've made so many lifelong friends through SASE and I've gotten the opportunity to play sports I don't normally play with some really cool people.",
+          "My first experience with SASE Sports was playing outdoor women's soccer my sophomore year. I didn't know anyone at the time but everyone was so friendly! Since then, I've played corec and women's soccer, volleyball, dodgeball, and basketball with SASE teams and I've always had a great time.",
         image: AshleyBurke,
       },
       {
@@ -126,7 +127,7 @@ const Testimonials = [
         name: "Bryan Park",
         position: "SASE Sports Member",
         quote:
-          "My very first experience with SASE Sports was a casual frisbee event my freshmen year. I didn't know anyone at the time nor had I ever played ultimate frisbee, but everyone I met was super friendly and made the experience fun and enjoyable. Since then, I've had the chance to captain multiple intramural teams across different sports, meeting and playing with so many awesome people. I also had the honor of serving as Sports Coordinator my sophomore year, where I led the SASE Sports program. Thanks to SASE Sports, I've made so many friends and countless memories and it has undoubtedly been a core part of my time at UF.",
+          "My first experience with SASE Sports was a casual frisbee event my freshmen year. I didn't know anyone at the time nor had I ever played ultimate frisbee, but everyone I met was super friendly. Since then, I've had the chance to captain multiple intramural teams across different sports and served as Sports Coordinator, where I led the SASE Sports program. Thanks to SASE Sports, I've made so many friends and countless memories and it has undoubtedly been a core part of my time at UF.",
         image: BryanPark,
       },
       {
@@ -135,6 +136,31 @@ const Testimonials = [
         quote:
           "I’ve found SASE sports as a great community and one that I’ve been apart of ever since I arrived at UF. I look forward to the casual sports every week and participating in intramurals for SASE has been some of the most fun I’ve had thus far! Although the casuals can get a little serious at times, there is never a lack of community and openness whenever trying out new things. I encourage everyone who just wants to play the sports they enjoy or are looking for new interests to come out and play!",
         image: TanTran,
+      },
+    ],
+  },
+  {
+    program: "M&M",
+    testimonials: [
+      {
+        name: "Alex’s Loubricants",
+        position: "Led by: Alexander Lou",
+        image: AlexLoubricants,
+      },
+      {
+        name: "Anna’s LIMbs",
+        position: "Led by: Anna Lim",
+        image: AnnaLIMbs,
+      },
+      {
+        name: "Choo Choo Trains",
+        position: "Led by: Tai Tran",
+        image: ChooChooTrains,
+      },
+      {
+        name: "Omlynettes",
+        position: "Led by: Lynette Hemingway",
+        image: Omlynettes,
       },
     ],
   },

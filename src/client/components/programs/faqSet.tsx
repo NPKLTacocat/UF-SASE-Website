@@ -3,7 +3,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
     question: "How do I sign up?",
     answer: (
       <>
-        This year’s team is closed, but feel free to apply in <strong>Fall 2025</strong> to be a part of 2025-2026 SET!
+        This semester's application is closed, but feel free to apply in <strong>Spring 2026</strong> to be a part of 2025-2026 SET!
       </>
     ),
   },
@@ -24,7 +24,7 @@ export const faqData: Array<{ question: string; answer: string | React.ReactNode
         <a href="http://discord.gg/q3HBeC5" target="_blank" rel="noopener noreferrer" className="text-saseGreen underline">
           SASE Discord channel
         </a>{" "}
-        or contact our Technical Chairs, Kevin and Manav, through Discord!
+        or contact our Technical Chairs, Matthew and Vishal, through Discord!
       </>
     ),
   },

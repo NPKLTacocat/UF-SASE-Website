@@ -43,11 +43,13 @@ export const Route = createFileRoute("/sports")({
         {/* Placeholder Image */}
         <div className="w-full max-w-7xl px-4 py-8">
           <Carousel purpose="Images" prog="Sports" />
+          <div className="mb-24" />
           <header className="mb-6 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Testimonials</h2>
           </header>
           <Carousel purpose="Testimonials" prog="Sports" />
+          <div className="mb-24" />
           <header className="mb-12 flex max-w-7xl items-center px-5">
             <div className="mr-3 h-11 w-1.5 bg-saseGreen"></div>
             <h2 className="font-oswald text-4xl text-foreground">Goals & Outcomes</h2>

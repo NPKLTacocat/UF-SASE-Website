@@ -1,6 +1,6 @@
+import { Values } from "@/client/components/home/HomePageInfoArrays";
 import { useIsMobile } from "@/client/hooks/useIsMobile";
 import { cn } from "@/shared/utils";
-import Values from "@components/home/Values";
 import ProgramImages from "@components/programs/ProgramImages";
 import Testimonials from "@components/programs/Testimonials";
 import type { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from "embla-carousel";
@@ -32,12 +32,22 @@ type Testimonial = {
   image: string;
 };
 
+type MMGroup = {
+  name: string;
+  position: string;
+  image: string;
+};
+
 const checkisValue = (slide: unknown): slide is Value => {
   return typeof slide === "object" && slide !== null && "img" in slide && "icon" in slide && "value" in slide && "text" in slide;
 };
 
 const checkisTestimonial = (slide: unknown): slide is Testimonial => {
   return typeof slide === "object" && slide !== null && "name" in slide && "position" in slide && "quote" in slide && "image" in slide;
+};
+
+const checkIsMMGroup = (slide: unknown): slide is MMGroup => {
+  return typeof slide === "object" && slide !== null && "name" in slide && "position" in slide && "image" in slide;
 };
 
 const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
@@ -133,15 +143,20 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
   return (
     <div className="relative">
       <div className="relative flex flex-row">
-        <div className="pointer-events-auto z-20 flex flex-col justify-center pr-[5%]">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} purpose={purpose} className="static" />
-        </div>
+        {/* Left arrow for desktop version */}
+        {!isMobile ? (
+          <div className="pointer-events-auto z-20 flex flex-col justify-center pr-[5%]">
+            <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} purpose={purpose} className="static" />
+          </div>
+        ) : null}
 
+        {/* Gradient Shading on left side */}
         {purpose === "Images" ? (
           <div className="absolute left-0 top-0 z-10 h-full w-[25%] bg-gradient-to-r from-white to-transparent dark:from-black" />
         ) : null}
         {purpose === "Values" ? <div className="absolute left-0 top-0 z-10 h-full w-[25%] bg-gradient-to-r from-black to-transparent" /> : null}
 
+        {/* Carousel slides */}
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex touch-pan-y touch-pinch-zoom">
             {slides.map((slide, index) => (
@@ -156,6 +171,7 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
                 key={index}
               >
                 <div className="embla__slide__image rounded-2xl bg-gradient-to-r from-saseBlue via-[#7DC242] to-saseGreen p-[4px]">
+                  {/* Carousel for Values on Home Page */}
                   {checkisValue(slide) ? (
                     <div className="rounded-[20px] bg-[linear-gradient(140deg,#7DC242_0%,#00AEEF_100%)] p-[3px]">
                       <div className="group relative h-[350px] w-full overflow-hidden rounded-[inherit] hover:cursor-pointer md:h-[450px]">
@@ -166,23 +182,34 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
                             alt={`${slide.value} + Icon`}
                             className="mb-2 transition-opacity duration-300 group-hover:opacity-0"
                           />
-                          <p className="text-center font-redhat text-3xl font-semibold text-black transition-opacity duration-300 group-hover:opacity-0 md:text-2xl lg:text-3xl">
+                          <p className="text-center font-redhat text-3xl font-semibold text-black transition-opacity duration-300 group-hover:opacity-0">
                             {slide.value}
                           </p>
-                          <p className="absolute bottom-[-20%] px-4 text-center font-redhat text-lg font-medium text-black opacity-0 transition-all duration-500 group-hover:bottom-1/2 group-hover:translate-y-1/2 group-hover:opacity-100 md:text-base lg:text-lg">
+                          <p className="absolute bottom-[-20%] px-4 text-center font-redhat text-lg font-medium text-black opacity-0 transition-all duration-500 group-hover:bottom-1/2 group-hover:translate-y-1/2 group-hover:opacity-100">
                             {slide.text}
                           </p>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="embla__slide__image group relative flex items-center justify-center hover:cursor-pointer">
-                      {checkisTestimonial(slide) ? (
+                    <div
+                      className={cn({ "hover:cursor-pointer": prog != "M&M" }, `embla__slide__image group relative flex items-center justify-center`)}
+                    >
+                      {/* Carousel for Interns/SASE Sports Testimonials, SET Projects, or M&M Groups */}
+                      {checkisTestimonial(slide) || checkIsMMGroup(slide) ? (
                         <>
                           <img src={slide.image} alt={`Image`} className="aspect-auto rounded-xl" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-end rounded-xl transition duration-300 ease-in-out hover:bg-saseGray/90">
+                          <div
+                            className={cn(
+                              { "transition duration-300 ease-in-out hover:bg-saseGray/90": prog != "M&M" },
+                              `absolute inset-0 flex flex-col items-center justify-end rounded-xl`,
+                            )}
+                          >
                             <p
-                              className="absolute pb-10 font-redhat text-xl font-semibold text-black opacity-100 transition duration-300 group-hover:opacity-0"
+                              className={cn(
+                                { "opacity-100 transition duration-300 group-hover:opacity-0": prog != "M&M" },
+                                `absolute pb-10 font-redhat text-xl font-semibold text-black`,
+                              )}
                               style={{
                                 textShadow: `0.7px 0 white,-0.7px 0 white,0 0.7px white,0 -0.7px white`,
                               }}
@@ -191,7 +218,10 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
                             </p>
 
                             <p
-                              className="absolute pb-4 font-redhat text-lg text-black opacity-100 transition duration-300 group-hover:opacity-0"
+                              className={cn(
+                                { "opacity-100 transition duration-300 group-hover:opacity-0": prog != "M&M" },
+                                `absolute pb-4 font-redhat text-lg text-black`,
+                              )}
                               style={{
                                 textShadow: `0.7px 0 white,-0.7px 0 white,0 0.7px white,0 -0.7px white`,
                               }}
@@ -199,12 +229,15 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
                               {slide.position}
                             </p>
 
-                            <p className="flex h-0 w-full items-center justify-center overflow-hidden px-4 text-center font-redhat text-lg font-medium text-black opacity-0 transition-all duration-700 ease-in-out group-hover:h-full group-hover:translate-y-0 group-hover:opacity-100 md:text-sm lg:text-base">
-                              "{slide.quote}"
-                            </p>
+                            {checkisTestimonial(slide) ? (
+                              <p className="flex h-0 w-full items-center justify-center overflow-hidden px-4 text-center font-redhat text-base font-medium text-black opacity-0 transition-all duration-700 ease-in-out group-hover:h-full group-hover:translate-y-0 group-hover:opacity-100">
+                                "{slide.quote}"
+                              </p>
+                            ) : null}
                           </div>
                         </>
                       ) : (
+                        // Carousel for Program Images
                         <img src={slide} alt={`Image`} className="aspect-auto rounded-xl" />
                       )}
                     </div>
@@ -215,16 +248,29 @@ const TestimonialCarousel: React.FC<PropType> = ({ prog, purpose }) => {
           </div>
         </div>
 
+        {/* Gradient Shading on right side */}
         {purpose === "Images" ? (
           <div className="absolute right-0 top-0 z-10 h-full w-[25%] bg-gradient-to-l from-white to-transparent dark:from-black" />
         ) : null}
         {purpose === "Values" ? <div className="absolute right-0 top-0 z-10 h-full w-[25%] bg-gradient-to-l from-black to-transparent" /> : null}
 
-        <div className="pointer-events-auto z-20 flex flex-col justify-center pl-[5%]">
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} purpose={purpose} className="static" />
-        </div>
+        {/* Right arrow for desktop */}
+        {!isMobile ? (
+          <div className="pointer-events-auto z-20 flex flex-col justify-center pl-[5%]">
+            <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} purpose={purpose} className="static" />
+          </div>
+        ) : null}
       </div>
 
+      {/* Arrows for mobile version */}
+      {isMobile ? (
+        <div className="mt-6 flex h-fit flex-row items-center justify-center gap-12">
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} purpose={purpose} className="static" />
+          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} purpose={purpose} className="static" />
+        </div>
+      ) : null}
+
+      {/* Slider icon */}
       <div className="mt-6 flex justify-center gap-2">
         {snaps.map((_, i) => (
           <button

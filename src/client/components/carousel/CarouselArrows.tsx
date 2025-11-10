@@ -72,7 +72,7 @@ export const PrevButton: React.FC<PropType> = ({ children, color = "green", ...r
       "[-webkit-tap-highlight-color:transparent]",
     )}
   >
-    <svg className={cn("h-10 w-10 scale-y-[1.25] transform md:h-14 md:w-14", colorClass(color))} viewBox="0 0 100 100" aria-hidden>
+    <svg className={cn("h-12 w-12 scale-y-[1.25] transform", colorClass(color))} viewBox="0 0 100 100" aria-hidden>
       <polygon points="72,8 28,50 72,92" fill="currentColor" stroke="white" strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" />{" "}
     </svg>
     {children}
@@ -91,7 +91,7 @@ export const NextButton: React.FC<PropType> = ({ children, color = "blue", ...re
       "[-webkit-tap-highlight-color:transparent]",
     )}
   >
-    <svg className={cn("h-10 w-10 scale-y-[1.25] transform md:h-14 md:w-14", colorClass(color))} viewBox="0 0 100 100" aria-hidden>
+    <svg className={cn("h-12 w-12 scale-y-[1.25] transform", colorClass(color))} viewBox="0 0 100 100" aria-hidden>
       <polygon points="28,8 72,50 28,92" fill="currentColor" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />{" "}
     </svg>
     {children}
